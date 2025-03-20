@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://bqm6mbgkdwik5"]
+
+[node name="ThemePreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopContainer" type="HBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NormalButtons" type="VBoxContainer" parent="ScrollContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonNormal" type="Button" parent="ScrollContainer/TopContainer/NormalButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+text = "Normal"
+
+[node name="ButtonPressed" type="Button" parent="ScrollContainer/TopContainer/NormalButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "Pressed"
+
+[node name="ButtonDisabled" type="Button" parent="ScrollContainer/TopContainer/NormalButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+disabled = true
+text = "Disabled"
+
+[node name="Label" type="Label" parent="ScrollContainer/TopContainer/NormalButtons"]
+layout_mode = 2
+text = "Label"
+
+[node name="SquareButtons" type="VBoxContainer" parent="ScrollContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SquareNormal" type="Button" parent="ScrollContainer/TopContainer/SquareButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_type_variation = &"SquareButton"
+text = "Normal"
+
+[node name="SquarePressed" type="Button" parent="ScrollContainer/TopContainer/SquareButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_type_variation = &"SquareButton"
+toggle_mode = true
+button_pressed = true
+text = "Pressed"
+
+[node name="SquareDisabled" type="Button" parent="ScrollContainer/TopContainer/SquareButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_type_variation = &"SquareButton"
+disabled = true
+text = "Disabled"
+
+[node name="OverlayButtons" type="VBoxContainer" parent="ScrollContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Normal" type="ColorRect" parent="ScrollContainer/TopContainer/OverlayButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+color = Color(0.281187, 0.281187, 0.281187, 1)
+
+[node name="OverlayNormal" type="Button" parent="ScrollContainer/TopContainer/OverlayButtons/Normal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"OverlayButton"
+text = "Normal"
+
+[node name="Pressed" type="ColorRect" parent="ScrollContainer/TopContainer/OverlayButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+color = Color(0.281187, 0.281187, 0.281187, 1)
+
+[node name="OverlayPressed" type="Button" parent="ScrollContainer/TopContainer/OverlayButtons/Pressed"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"OverlayButton"
+toggle_mode = true
+button_pressed = true
+text = "Pressed"
+
+[node name="Disabled" type="ColorRect" parent="ScrollContainer/TopContainer/OverlayButtons"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+color = Color(0.281187, 0.281187, 0.281187, 1)
+
+[node name="OverlayDisabled" type="Button" parent="ScrollContainer/TopContainer/OverlayButtons/Disabled"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"OverlayButton"
+disabled = true
+text = "Disabled"
+
+[node name="VScrollBar" type="VScrollBar" parent="ScrollContainer/TopContainer"]
+layout_mode = 2
+size_flags_horizontal = 10

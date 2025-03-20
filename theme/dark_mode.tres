@@ -1,0 +1,104 @@
+[gd_resource type="Theme" load_steps=23 format=3 uid="uid://b07c8ipcwbeuu"]
+
+[ext_resource type="Texture2D" uid="uid://dyqo8t7p8th70" path="res://user_interface/ui_assets/buttons/DarkH.png" id="1_k82cp"]
+[ext_resource type="Texture2D" uid="uid://bjj156xcnysoh" path="res://user_interface/ui_assets/buttons/DarkD.png" id="1_yes77"]
+[ext_resource type="Texture2D" uid="uid://d1dkqe1hyspqy" path="res://user_interface/ui_assets/buttons/DarkN.png" id="2_78mhd"]
+[ext_resource type="Texture2D" uid="uid://bd1jh2kc76lwk" path="res://user_interface/ui_assets/buttons/DarkP.png" id="3_01arn"]
+[ext_resource type="FontFile" uid="uid://bqb5kjp7kovek" path="res://user_interface/ui_assets/fonts/itch bundle/ThickPixels.ttf" id="4_co3xq"]
+[ext_resource type="Texture2D" uid="uid://eaekciogt4nw" path="res://user_interface/ui_assets/buttons/DarkSquareD.png" id="5_fg6ot"]
+[ext_resource type="Texture2D" uid="uid://bbgiki0l5oxeh" path="res://user_interface/ui_assets/buttons/DarkSquareH.png" id="6_g22ny"]
+[ext_resource type="Texture2D" uid="uid://m7yqsvna61g3" path="res://user_interface/ui_assets/buttons/DarkSquareN.png" id="7_hmw2d"]
+[ext_resource type="Texture2D" uid="uid://clpqkgn874u1s" path="res://user_interface/ui_assets/buttons/DarkSquareP.png" id="8_7pk5l"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q2e4p"]
+texture = ExtResource("1_yes77")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4et1"]
+bg_color = Color(0.168627, 0.129412, 0.54902, 0.25098)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ghxb3"]
+texture = ExtResource("1_k82cp")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6kf72"]
+texture = ExtResource("2_78mhd")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tv8pb"]
+content_margin_top = 12.0
+texture = ExtResource("3_01arn")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3sgi"]
+bg_color = Color(0.103744, 0.103744, 0.103743, 0.25098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5moc"]
+bg_color = Color(1, 1, 1, 0.12549)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2oocx"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eg71k"]
+bg_color = Color(1, 1, 1, 0.188235)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ex4ya"]
+texture = ExtResource("5_fg6ot")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_npqao"]
+texture = ExtResource("6_g22ny")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_imi1x"]
+texture = ExtResource("7_hmw2d")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d1eb5"]
+texture = ExtResource("8_7pk5l")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 8.0
+
+[resource]
+default_font = ExtResource("4_co3xq")
+default_font_size = 16
+Button/font_sizes/font_size = 16
+Button/styles/disabled = SubResource("StyleBoxTexture_q2e4p")
+Button/styles/focus = SubResource("StyleBoxFlat_t4et1")
+Button/styles/hover = SubResource("StyleBoxTexture_ghxb3")
+Button/styles/normal = SubResource("StyleBoxTexture_6kf72")
+Button/styles/pressed = SubResource("StyleBoxTexture_tv8pb")
+Label/font_sizes/font_size = 32
+OverlayButton/base_type = &"Button"
+OverlayButton/styles/disabled = SubResource("StyleBoxFlat_o3sgi")
+OverlayButton/styles/hover = SubResource("StyleBoxFlat_k5moc")
+OverlayButton/styles/normal = SubResource("StyleBoxFlat_2oocx")
+OverlayButton/styles/pressed = SubResource("StyleBoxFlat_eg71k")
+SquareButton/base_type = &"Button"
+SquareButton/styles/disabled = SubResource("StyleBoxTexture_ex4ya")
+SquareButton/styles/hover = SubResource("StyleBoxTexture_npqao")
+SquareButton/styles/normal = SubResource("StyleBoxTexture_imi1x")
+SquareButton/styles/pressed = SubResource("StyleBoxTexture_d1eb5")
