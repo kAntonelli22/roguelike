@@ -5,3 +5,7 @@
 
 [node name="Enemy" instance=ExtResource("1_m8lox")]
 script = ExtResource("2_cyxrf")
+
+[node name="KnightSprite" parent="." index="2"]
+position = Vector2(-16, -16)
+flip_h = true

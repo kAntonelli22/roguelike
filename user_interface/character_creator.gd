@@ -1,5 +1,7 @@
 extends Control
 
+#TODO add Village scene where player can visit blacksmith, merchant, etc.
+#TODO campaign map scene where player moves along a linear path to the next fight and village/town
 #HACK clean up the @onready nodes
 
 # ---- # Nodes

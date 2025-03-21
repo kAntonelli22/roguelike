@@ -1,7 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://e40ytarsr77s"]
+[gd_scene load_steps=28 format=3 uid="uid://e40ytarsr77s"]
 
 [ext_resource type="Script" path="res://core/player/entity.gd" id="1_sxr4k"]
+[ext_resource type="Texture2D" uid="uid://bsmte7cekp6mf" path="res://core/battle/assets/circle.aseprite" id="2_mbeat"]
 [ext_resource type="Texture2D" uid="uid://dwn7yy2fv03e6" path="res://core/player/player_assets/swordman_1.png" id="2_sqa2r"]
+[ext_resource type="Texture2D" uid="uid://cf5q0k11ebtek" path="res://core/battle/assets/ringaseprite.aseprite" id="3_csror"]
 [ext_resource type="Texture2D" uid="uid://dxyhtnjbg4veq" path="res://user_interface/ui_assets/progress_bars/Under.png" id="3_lxhkd"]
 [ext_resource type="Texture2D" uid="uid://so0qki34syyc" path="res://user_interface/ui_assets/progress_bars/Over.png" id="4_evyur"]
 [ext_resource type="Texture2D" uid="uid://d1utwwftyv7ks" path="res://user_interface/ui_assets/progress_bars/Progress.png" id="5_85kte"]
@@ -157,6 +159,23 @@ height = 144.0
 [node name="Entity" type="StaticBody2D"]
 input_pickable = true
 script = ExtResource("1_sxr4k")
+
+[node name="Spot" type="TextureRect" parent="."]
+offset_left = -96.0
+offset_top = -32.0
+offset_right = 96.0
+offset_bottom = 160.0
+texture = ExtResource("2_mbeat")
+expand_mode = 2
+
+[node name="SelectionCircle" type="TextureRect" parent="."]
+visible = false
+offset_left = -96.0
+offset_top = -32.0
+offset_right = 96.0
+offset_bottom = 160.0
+texture = ExtResource("3_csror")
+expand_mode = 2
 
 [node name="KnightSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(16, -16)

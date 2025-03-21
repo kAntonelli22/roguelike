@@ -11,8 +11,11 @@ func next_turn():
 
 func update_queue(queue: Array[Entity]):
    for entity in queue:
-      #var icon = new ColorRect  #TODO add icon data to entities and retrieve it here
-      turn_queue#.add_child(icon)
+      var icon: TextureRect = TextureRect.new()
+      icon.texture = entity.icon
+      icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH
+      icon.tooltip_text = entity.name
+      turn_queue.add_child(icon)
 
 func _on_end_turn_pressed() -> void:
    SignalBus.emit_signal("end_turn")

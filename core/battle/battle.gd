@@ -1,9 +1,12 @@
 extends Node2D
 
+#TODO add spots to background directly instead of entity having it
+
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI
 
 # ---- # Variables
+var turn_count: int = 0
 var turn_queue: Array[Entity] = []    # use pop_front and push_back
 var player_entities: Array[Entity] = []
 var enemy_entities: Array[Entity] = []
@@ -14,10 +17,6 @@ func _ready() -> void:
    SignalBus.connect("new_player", new_player)
    SignalBus.connect("new_enemy", new_enemy)
    SignalBus.emit_signal("battle_ready")
-   #TODO listen for creation signals from Entity
-   #TODO add Entitys into queues and arrays
-   #TODO loop through entity arrays and determine turn order
-   #TODO update ui order
    call_deferred("merge_arrays")
 
 # ---- # Next Turn
@@ -25,6 +24,7 @@ func _ready() -> void:
 # check if the game is over and update ui
 # get the next entity and start its turn
 func next_turn():
+   turn_count += 1
    current_entity.my_turn = false
    turn_queue.push_back(current_entity)
    
@@ -34,6 +34,7 @@ func next_turn():
    
    current_entity = turn_queue.pop_front()
    current_entity.my_turn = true
+   print_rich("[color=#64649E]Battle Scene[/color]: ", current_entity.name, " begining turn")
 
 # ---- # New Player
 func new_player(player: Player):
@@ -56,5 +57,5 @@ func merge_arrays():
 
 # ---- # Sort Turn Queue
 func sort_queue(e1: Entity, e2: Entity):
-   if e1.speed > e2.speed: return true
+   if e1.speed < e2.speed: return true    #HACK temporary < until an actual speed system is implemented
    else: return false

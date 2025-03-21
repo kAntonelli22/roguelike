@@ -1,12 +1,20 @@
 class_name Entity
 extends StateMachine
 
+#TODO attack class that entities reference
+#TODO weapon class that entities reference
+#TODO only one entity selected at a time
+
 # ---- # Nodes
-@onready var sprite = $KnightSprite
-@onready var healthbar = $Healthbar
+@onready var sprite := $KnightSprite
+@onready var healthbar := $Healthbar
+@onready var spot := $Spot
+@onready var selection_circle := $SelectionCircle
 
 # ---- # Variables
-var selected: bool = true
+var icon 
+
+var is_selected: bool = false
 var my_turn: bool = false
 
 var health: int
@@ -15,6 +23,10 @@ var speed: int             # used to determine turn
 
 func attack(target: Entity, attack):
    target.health -= attack.damage
+
+func toggle_selected():
+   is_selected = !is_selected
+   selection_circle.visible = !selection_circle.visible
 
 func _ready() -> void:
    print_rich("[color=#64649E]Entity Created[/color]")
@@ -44,5 +56,5 @@ func _on_knight_sprite_animation_looped() -> void:
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
    if event.is_action_pressed("select"):
-      SignalBus.emit_signal("selected")
-      print_rich("[color=#64649E]Entity[/color]: [color=#AAAAAA]selected by user")
+      toggle_selected()
+      if !is_selected: SignalBus.emit_signal("selected", self)
