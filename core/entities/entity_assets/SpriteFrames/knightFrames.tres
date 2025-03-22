@@ -1,8 +1,9 @@
-[gd_resource type="SpriteFrames" load_steps=18 format=3 uid="uid://bk3sawdhyfw0w"]
+[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://bk3sawdhyfw0w"]
 
 [ext_resource type="Texture2D" uid="uid://bicfkbiev2ue3" path="res://core/entities/entity_assets/knight/Spritesheet 128/Knight_1/Attack 3.png" id="1_rusrw"]
 [ext_resource type="Texture2D" uid="uid://4x5mbq6jdims" path="res://core/entities/entity_assets/knight/Spritesheet 128/Knight_1/Dead.png" id="2_sej1j"]
 [ext_resource type="Texture2D" uid="uid://47ivh4v8yw8f" path="res://core/entities/entity_assets/knight/Knight_1/Idle.png" id="3_6ypv7"]
+[ext_resource type="Texture2D" uid="uid://bdgtno01tlcti" path="res://core/entities/entity_assets/knight/Knight_1/Hurt.png" id="3_onh6h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oh2dj"]
 atlas = ExtResource("1_rusrw")
@@ -43,6 +44,14 @@ region = Rect2(504, 32, 126, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukb1h"]
 atlas = ExtResource("2_sej1j")
 region = Rect2(630, 32, 126, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jptgr"]
+atlas = ExtResource("3_onh6h")
+region = Rect2(0, 0, 70, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qyjd"]
+atlas = ExtResource("3_onh6h")
+region = Rect2(70, 0, 70, 86)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_peyt6"]
 atlas = ExtResource("3_6ypv7")
@@ -101,6 +110,17 @@ animations = [{
 "loop": false,
 "name": &"die",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jptgr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6qyjd")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,

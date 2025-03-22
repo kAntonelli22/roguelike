@@ -44,7 +44,7 @@ func _on_right_arrow_pressed() -> void:
    selected_class = class_labels[scroll_container.scroll_horizontal / min_size].text
    print(selected_class)
    
-# ---- # Start Battle
+# ---- # Start Game
 func _on_start_pressed() -> void:
    Global.player_stats.base_class = selected_class
    Global.player_stats.name = char_name

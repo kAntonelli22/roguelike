@@ -1,6 +1,6 @@
 extends Node2D
 
-#TODO add spots to background directly instead of entity having it
+
 
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI
