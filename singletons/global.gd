@@ -21,14 +21,17 @@ var mage_attacks: Array[Attack] = [Attack.new(), Attack.MultiTargetAttack.new()]
 var classes: Dictionary = {
    "Knight": {
       "sprite": preload("res://core/entities/entity_assets/SpriteFrames/knightFrames.tres"),
+      "icon": preload("res://core/entities/entity_assets/knight/Knight_1/Icon.png"),
       "attacks": knight_attacks
       },
    "Archer": {
       "sprite": preload("res://core/entities/entity_assets/SpriteFrames/samuraiFrames.tres"),
+      "icon": preload("res://core/entities/entity_assets/Samurai/Samurai_Archer/icon.png"),
       "attacks": archer_attacks
       },
    "Mage": {
       "sprite": preload("res://core/entities/entity_assets/SpriteFrames/mageFrames.tres"),
+      "icon": preload("res://core/entities/entity_assets/wizard/lightning Mage/Icon.png"),
       "attacks": mage_attacks
       },
 }

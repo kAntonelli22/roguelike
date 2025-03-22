@@ -3,7 +3,6 @@ extends StateMachine
 
 #TODO attack class that entities reference
 #TODO weapon class that entities reference
-#FIXME entity selection is buggy
 #FIXME sprite frames need to be adjusted
 
 # ---- # Nodes
@@ -13,8 +12,6 @@ extends StateMachine
 
 # ---- # Variables
 var icon 
-
-#FIXME is_selected is inverted
 var is_selected: bool = false
 var my_turn: bool = false
 
@@ -24,10 +21,15 @@ var action_points: int = 3
 var speed: int             # used to determine turn
 var attacks: Array[Attack]
 
-func toggle_selected():
-   is_selected = !is_selected
-   selection_ring.visible = !selection_ring.visible
-   print_rich("[color=#64649E]Entity[/color]: is_selected: ", is_selected)
+func select():
+   is_selected = true
+   selection_ring.show()
+   print_rich("[color=#64649E]Entity[/color]: selected")
+
+func deselect():
+   is_selected = false
+   selection_ring.hide()
+   print_rich("[color=#64649E]Entity[/color]: deselected")
 
 func apply_damage(damage):
    print_rich("[color=#64649E]Entity[/color]: took ", damage, "damage")
@@ -39,6 +41,7 @@ func _ready() -> void:
    print_rich("[color=#64649E]Entity Created[/color]")
    print("healthbar: ", healthbar.value, " ", health)
    sprite.sprite_frames = Global.classes[base_class]["sprite"]
+   icon = Global.classes[base_class]["icon"]
    attacks = Global.classes[base_class]["attacks"]
    add_to_group("Entity")
    add_state("idle")
@@ -70,5 +73,4 @@ func _on_knight_sprite_animation_looped() -> void:
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
    if event.is_action_pressed("select"):
-      toggle_selected()
-      if is_selected: SignalBus.emit_signal("selected", self)
+      if !is_selected: SignalBus.emit_signal("selected", self)

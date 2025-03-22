@@ -8,9 +8,13 @@ extends Entity
 # ---- # Variables
 var current_attack: Attack
 
-func toggle_selected():
+func select():
    super()
-   action_selection.visible = !action_selection.visible
+   action_selection.show()
+
+func deselect():
+   super()
+   action_selection.hide()
 
 func create_actions():
    for i in range(0, attacks.size()):
@@ -24,26 +28,33 @@ func attack_num(button):
    print_rich("[color=Royalblue]Player[/color]: attack button ", button, " pressed")
    var new_attack = attacks[button.name.to_int()]
    if current_attack == new_attack: current_attack = null
-   else: current_attack = new_attack
+   else:
+      current_attack = new_attack
+      SelectionManager.attack_selection = true
+      if current_attack is Attack.MultiTargetAttack: SelectionManager.multi_selection = true
 
-func on_selected(selected_entity: Entity):
-   if current_attack != null:
-      if action_points > 0:
-         current_attack.attack(selected_entity)
-         set_state(states.attack)
-      else: print_rich("[color=Royalblue]Player[/color]: not enough action points: ", action_points)
-   elif selected_entity != self and is_selected:
-         toggle_selected()
+func finish_attack():
+   if action_points > 0:
+      current_attack.attack(SelectionManager.get_targets())
+      set_state(states.attack)
+   else: print_rich("[color=Royalblue]Player[/color]: not enough action points: ", action_points)
+#func on_selected(selected_entity: Entity):
+   #if current_attack != null:
+      #if action_points > 0:
+         #current_attack.attack(SelectionManager.get_targets())
+         #set_state(states.attack)
+      #else: print_rich("[color=Royalblue]Player[/color]: not enough action points: ", action_points)
+   #elif selected_entity != self and is_selected:
+         #toggle_selected()
 
 func _ready() -> void:
    base_class = Global.player_stats.base_class
    super()
    print_rich("[color=Royalblue]Player Created[/color]")
    add_to_group("Player")
-   icon = Global.godot_icon
    health = Global.player_stats.health
    action_points = Global.player_stats.action_points
-   SignalBus.connect("selected", on_selected)
+   #SignalBus.connect("selected", on_selected)
    create_actions()
    await SignalBus.battle_ready
    SignalBus.emit_signal("new_player", self)

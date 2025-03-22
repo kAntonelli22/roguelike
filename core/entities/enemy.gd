@@ -9,7 +9,6 @@ func _ready() -> void:
    super()
    print_rich("[color=Crimson]Enemy Created[/color]")
    add_to_group("Enemy")
-   icon = Global.godot_icon
    health = 100
    action_points = 100
    await SignalBus.battle_ready
@@ -27,7 +26,7 @@ func _get_transition(_delta):
 func enemy_turn():
    var target: Entity = get_tree().get_nodes_in_group("Player").pick_random()
    var attack: Attack = attacks.pick_random()
-   attack.attack(target)
+   attack.attack([target])
    set_state(states.attack)
    my_turn = false
    SignalBus.emit_signal("end_turn")

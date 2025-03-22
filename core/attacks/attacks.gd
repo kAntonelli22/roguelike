@@ -7,8 +7,8 @@ var damage_max: int = 10
 var type: String
 var name: String = "Base"
 
-func attack(target: Entity):
-   target.apply_damage(range(damage_min, damage_max).pick_random())
+func attack(targets: Array[Entity]):
+   targets[0].apply_damage(range(damage_min, damage_max).pick_random())
 
 
 class MultiTargetAttack:
@@ -18,9 +18,9 @@ class MultiTargetAttack:
    func _init() -> void:
       name = "MultiTarget"
    
-   func multi_target_attack(targets: Array[Entity]):
+   func attack(targets: Array[Entity]):
       for target in targets:
-         super.attack(target)
+         super.attack([target])
 
 class MultiCountAttack:
    extends Attack
@@ -29,6 +29,6 @@ class MultiCountAttack:
    func _init() -> void:
       name = "MultiCount"
    
-   func attack(target: Entity):
+   func attack(targets: Array[Entity]):
       for i in range(0, attack_count):
-         super(target)
+         super([targets[0]])

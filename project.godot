@@ -23,6 +23,7 @@ aseprite_executable_path="F:/aseprite/aseprite.exe"
 
 Global="*res://singletons/global.gd"
 SignalBus="*res://singletons/signal_bus.gd"
+SelectionManager="*res://singletons/selection_manager.gd"
 
 [dotnet]
 
