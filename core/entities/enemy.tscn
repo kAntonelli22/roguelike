@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://eiw6acf4xft7"]
+
+[ext_resource type="PackedScene" uid="uid://e40ytarsr77s" path="res://core/entities/entity.tscn" id="1_m8lox"]
+[ext_resource type="Script" path="res://core/entities/enemy.gd" id="2_cyxrf"]
+
+[node name="Enemy" instance=ExtResource("1_m8lox")]
+script = ExtResource("2_cyxrf")
+
+[node name="Sprite" parent="." index="1"]
+flip_h = true

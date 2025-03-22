@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbq3aqpr1ywob"]
+
+[ext_resource type="PackedScene" uid="uid://e40ytarsr77s" path="res://core/entities/entity.tscn" id="1_vbsgj"]
+[ext_resource type="Script" path="res://core/entities/player.gd" id="2_xkc7s"]
+
+[node name="Player" instance=ExtResource("1_vbsgj")]
+script = ExtResource("2_xkc7s")
+
+[node name="ActionSelection" type="VBoxContainer" parent="." index="4"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -32.0
+offset_right = 129.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -7
