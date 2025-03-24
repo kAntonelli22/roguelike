@@ -113,10 +113,37 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 alignment = 1
 
-[node name="EndTurn" type="Button" parent="UI/MarginContainer"]
+[node name="TurnContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_constants/separation = 0
+
+[node name="PointsRemaining" type="ColorRect" parent="UI/MarginContainer/TurnContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.0823529, 0.0823529, 0.101961, 1)
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TurnContainer/PointsRemaining"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "skip move?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EndTurn" type="Button" parent="UI/MarginContainer/TurnContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"SquareButton"
+theme_override_font_sizes/font_size = 32
 text = "End Turn"
 
 [node name="Spots" type="Node" parent="UI"]
@@ -145,4 +172,4 @@ position = Vector2(896, 264)
 [node name="Enemy4" parent="." instance=ExtResource("4_gebkq")]
 position = Vector2(1024, 376)
 
-[connection signal="pressed" from="UI/MarginContainer/EndTurn" to="UI" method="_on_end_turn_pressed"]
+[connection signal="pressed" from="UI/MarginContainer/TurnContainer/EndTurn" to="UI" method="_on_end_turn_pressed"]

@@ -6,7 +6,8 @@ extends Node
 # ---- # PackedScene
 var titlescreen_scene := preload("res://user_interface/title.tscn")
 var charcreator_scene := preload("res://user_interface/character_creator.tscn")
-var battle_scene := preload("res://core/battle/battle.tscn")
+var village_scene := preload("res://user_interface/village.tscn")
+var battle_scene := load("res://core/battle/battle.tscn")         #HACK cyclical reference when returning to village
 
 # ---- # Resources
 var player_stats: PlayerStats = PlayerStats.new()
@@ -31,10 +32,13 @@ var classes: Dictionary = {
       },
    "Mage": {
       "sprite": preload("res://core/entities/entity_assets/SpriteFrames/mageFrames.tres"),
-      "icon": preload("res://core/entities/entity_assets/wizard/lightning Mage/Icon.png"),
+      "icon": preload("res://core/entities/entity_assets/wizard/Lightning Mage/Icon.png"),
       "attacks": mage_attacks
       },
 }
 
+#TODO attack dictionaries that hold each possible attack
+
 # ---- # Palette
-# (#15151A), (#292933), (#3E3E4D), (#A3A3CC), (#B8B8E6), (#CCCCFF), 
+# Black - White (#15151A), (#292933), (#3E3E4D), (#A3A3CC), (#B8B8E6), (#CCCCFF),
+# Rich Print BBCode (Dimgray), (Springgreen), (Royalblue), (Dimgray), (Dimgray), (#64649E), 

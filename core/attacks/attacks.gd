@@ -1,6 +1,7 @@
 class_name Attack
 extends Resource
 
+#TODO add status effect resources
 
 var damage_min: int = 5
 var damage_max: int = 10

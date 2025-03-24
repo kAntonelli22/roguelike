@@ -1,16 +1,12 @@
 extends Control
 
-#TODO add Village scene where player can visit blacksmith, merchant, etc.
 #TODO campaign map scene where player moves along a linear path to the next fight and village/town
-#HACK clean up the @onready nodes
 
 # ---- # Nodes
-@onready var menu_container: VBoxContainer = $ColorRect/MarginContainer/VBoxContainer
-@onready var class_selection: HBoxContainer = menu_container.get_node("ClassSelection")
-@onready var left_arrow: Button = class_selection.get_node("LeftArrow")
-@onready var right_arrow: Button = class_selection.get_node("RightArrow")
+@onready var left_arrow: Button = $ColorRect/MarginContainer/VBoxContainer/ClassSelection/LeftArrow
+@onready var right_arrow: Button = $ColorRect/MarginContainer/VBoxContainer/ClassSelection/RightArrow
 
-@onready var scroll_container: ScrollContainer = class_selection.get_node("ScrollContainer")
+@onready var scroll_container: ScrollContainer = $ColorRect/MarginContainer/VBoxContainer/ClassSelection/ScrollContainer
 @onready var knight_label: Label = scroll_container.get_node("HBoxContainer/Knight")
 @onready var archer_label: Label = scroll_container.get_node("HBoxContainer/Archer")
 @onready var mage_label: Label = scroll_container.get_node("HBoxContainer/Mage")
@@ -36,19 +32,17 @@ func _ready() -> void:
 func _on_left_arrow_pressed() -> void:
    scroll_container.scroll_horizontal -= min_size
    selected_class = class_labels[scroll_container.scroll_horizontal / min_size].text
-   print(selected_class)
 
 # ---- # Class Selection Right Arrow
 func _on_right_arrow_pressed() -> void:
    scroll_container.scroll_horizontal += min_size
    selected_class = class_labels[scroll_container.scroll_horizontal / min_size].text
-   print(selected_class)
    
 # ---- # Start Game
 func _on_start_pressed() -> void:
    Global.player_stats.base_class = selected_class
    Global.player_stats.name = char_name
-   get_tree().change_scene_to_packed(Global.battle_scene)
+   get_tree().change_scene_to_packed(Global.village_scene)
 
 # ---- # Return To Menu
 func _on_exit_pressed() -> void:
