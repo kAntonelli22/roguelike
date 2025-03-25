@@ -1,12 +1,12 @@
 class_name Attack
 extends Resource
 
-#TODO add status effect resources
 
-var damage_min: int = 5
-var damage_max: int = 10
 var type: String
 var name: String = "Base"
+var damage_min: int = 5
+var damage_max: int = 10
+var effects: Array[Effect]
 
 func attack(targets: Array[Entity]):
    targets[0].apply_damage(range(damage_min, damage_max).pick_random())

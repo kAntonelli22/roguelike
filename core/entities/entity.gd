@@ -2,6 +2,7 @@ class_name Entity
 extends StateMachine
 
 #TODO weapon class that entities reference
+#TODO entity effect array and method that calls each effect
 #TODO rework of attack system
 #TODO overhaul system to allow for multiple attacks and utilize state machine
 #TODO or implement an action queue for each entity that allows it to use the same system but do multiple actions

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://neqghf6gfg36"]
 
-[ext_resource type="Script" path="res://village.gd" id="1_ngrii"]
+[ext_resource type="Script" path="res://user_interface/village.gd" id="1_ngrii"]
 
 [node name="Village" type="Control"]
 layout_mode = 3
