@@ -16,28 +16,28 @@ func select_entity(entity: Entity):
    if entities_selected.has(entity): entities_selected.remove_at(entities_selected.find(entity))
    if targets_selected.has(entity): targets_selected.remove_at(targets_selected.find(entity))
    
-   var array: Array[Entity]
-   if !attack_selection:
-      array = entities_selected
-      print_rich("[color=Springgreen]Selection Manager[/color]: using entity array")
+   if attack_selection:
+      if multi_selection:
+         targets_selected.append(entity)
+         entity.attack_select()
+      else:
+         deselect_all(targets_selected)
+         targets_selected.append(entity)
+         entity.attack_select()
    else:
-      array = targets_selected
-      print_rich("[color=Springgreen]Selection Manager[/color]: using target array")
-      
-   if multi_selection:
-      print_rich("[color=Springgreen]Selection Manager[/color]: ", entity.name, " selected")
-      array.append(entity)
-      entity.select()
-   else:
-      print_rich("[color=Springgreen]Selection Manager[/color]: ", entity.name, " selected")
-      deselect_all(array)
-      array.append(entity)
-      entity.select()
+      if multi_selection:
+         entities_selected.append(entity)
+         entity.select()
+      else:
+         deselect_all(entities_selected)
+         entities_selected.append(entity)
+         entity.select()
 
 func deselect_all(array):
    print_rich("[color=Springgreen]Selection Manager[/color]: clearing array")
    for element in array:
          element.deselect()
+         element.attack_deselect()
    array.clear()
 
 func get_targets() -> Array[Entity]:

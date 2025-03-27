@@ -54,7 +54,6 @@ func new_enemy(enemy: Enemy):
    print_rich("[color=#64649E]Battle Scene[/color]: [color=Crimson]enemy[/color] added")
 
 # ---- # Remove From Queue
-#FIXME doesnt remove successfully
 func remove_from_queue(entity: Entity):
    print("removing ", entity, " from queue, ", turn_queue)
    if entity is Player: player_entities.remove_at(player_entities.find(entity))

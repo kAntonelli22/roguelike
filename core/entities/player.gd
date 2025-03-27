@@ -1,23 +1,17 @@
 class_name Player
 extends Entity
 
-#TODO switch to using target array to hold enemies that will be attacked
 #TODO actually use the state machine for more than just animations
 
 # ---- # Nodes
-@onready var action_selection = $ActionSelection
+
 
 # ---- # Variables
 var current_attack: Attack
 
-func select():
-   super()
-   action_selection.show()
-
 func deselect():
    super()
    current_attack = null
-   action_selection.hide()
 
 func create_actions():
    for i in range(0, attacks.size()):
@@ -35,7 +29,7 @@ func attack_num(button):
    else:
       current_attack = new_attack
       SelectionManager.attack_selection = true
-      if current_attack is Attack.MultiTargetAttack: SelectionManager.multi_selection = true
+      if current_attack is Attack.MultiTarget: SelectionManager.multi_selection = true
 
 func finish_turn(signaller: Entity):
    #HACK signaller is added to deal with weird signal behavior

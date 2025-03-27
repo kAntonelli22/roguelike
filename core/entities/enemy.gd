@@ -1,16 +1,22 @@
 class_name Enemy
 extends Entity
 
-#FIXME make enemy wait for animation to end before ending turn
 #TODO actually use the state machine for more than just animations
 # ---- # Variables
 
+func create_actions():
+   for i in range(0, attacks.size()):
+      var button = Button.new()
+      button.text = attacks[i].name + " " + str(attacks[i].damage_min) + "-" + str(attacks[i].damage_max)
+      button.name = str(i)
+      action_selection.add_child(button)
+      #button.pressed.connect(attack_num.bind(button))
 
 func _ready() -> void:
    super()
    add_to_group("Enemy")
-   health = 100
-   action_points = 100
+   health = 50
+   action_points = 3
    $SelectionRing.modulate = Color(1, 0, 0)
    await SignalBus.battle_ready
    SignalBus.emit_signal("new_enemy", self)

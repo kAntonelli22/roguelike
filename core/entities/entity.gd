@@ -1,7 +1,6 @@
 class_name Entity
 extends StateMachine
 
-#TODO weapon class that entities reference
 #TODO entity effect array and method that calls each effect
 #TODO rework of attack system
 #TODO overhaul system to allow for multiple attacks and utilize state machine
@@ -12,6 +11,8 @@ extends StateMachine
 @onready var sprite := $Sprite
 @onready var healthbar := $Healthbar
 @onready var selection_ring := $SelectionRing
+@onready var attack_ring := $AttackRing
+@onready var action_selection = $ActionSelection
 
 # ---- # Variables
 var icon 
@@ -22,21 +23,26 @@ var base_class: String = "Knight"
 var health: int = 100
 var action_points: int = 3
 var speed: int             # used to determine turn order
-var attacks: Array[Attack]
+var attacks: Array
+var effects: Array
 
 func select():
    is_selected = true
    selection_ring.show()
+   action_selection.show()
 
 func deselect():
    is_selected = false
    selection_ring.hide()
+   action_selection.hide()
+
+func attack_select(): attack_ring.show()
+func attack_deselect(): attack_ring.hide()
 
 func apply_damage(damage):
    print_rich("[color=#64649E]Entity[/color]: took ", damage, "damage")
    health -= damage
    set_state(states.hurt)
-   #TODO shake sprite around for a second
 
 func _ready() -> void:
    print_rich("[color=#64649E]Entity Created[/color]")
@@ -52,6 +58,7 @@ func _ready() -> void:
    speed = get_tree().get_nodes_in_group("Entity").size()
 
 func _state_logic(_delta):
+   $DebugLabel.text = "effects: " + str(effects)
    if healthbar.value != health: healthbar.value = health
    if health <= 0 and state != states.dead: set_state(states.dead)
    match(state):
