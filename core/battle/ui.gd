@@ -32,3 +32,7 @@ func _on_end_turn_pressed() -> void:
       turn_button.disabled = true
       remaining_points.hide()
       SignalBus.emit_signal("turn_button_pressed", parent.current_entity)
+
+
+func _on_confirm_attack_pressed() -> void:
+   SignalBus.emit_signal("confirm_attack")

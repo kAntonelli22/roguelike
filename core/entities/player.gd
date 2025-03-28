@@ -3,16 +3,6 @@ extends Entity
 
 #TODO actually use the state machine for more than just animations
 
-# ---- # Nodes
-
-
-# ---- # Variables
-var current_attack: Attack
-
-func deselect():
-   super()
-   current_attack = null
-
 func create_actions():
    for i in range(0, attacks.size()):
       var button = Button.new()
@@ -24,21 +14,16 @@ func create_actions():
 func attack_num(button):
    print_rich("[color=Royalblue]Player[/color]: attack ", button.text, " chosen")
    var new_attack = attacks[button.name.to_int()]
-   if current_attack == new_attack: 
-      current_attack = null
-   else:
-      current_attack = new_attack
-      SelectionManager.attack_selection = true
-      if current_attack is Attack.MultiTarget: SelectionManager.multi_selection = true
+   current_attack = new_attack if current_attack != new_attack else null
+   SelectionManager.attack_selection = current_attack != null
+   SelectionManager.multi_selection = new_attack is Attack.MultiTarget
+
+func add_action():
+   if my_turn: super()
 
 func finish_turn(signaller: Entity):
    #HACK signaller is added to deal with weird signal behavior
-   if !my_turn or signaller != self: return
-   if action_points > 0 and current_attack != null:
-      current_attack.attack(SelectionManager.get_targets())
-      set_state(states.attack)
-   else: print_rich("[color=Royalblue]Player[/color]: not enough action points: ", action_points)
-   SignalBus.emit_signal("end_turn")
+   if my_turn and signaller == self: start_turn()
 
 func _ready() -> void:
    base_class = Global.player_stats.base_class
@@ -47,29 +32,17 @@ func _ready() -> void:
    health = Global.player_stats.health
    action_points = Global.player_stats.action_points
    SignalBus.connect("turn_button_pressed", finish_turn)
+   SignalBus.connect("confirm_attack", add_action)
    create_actions()
    await SignalBus.battle_ready
    SignalBus.emit_signal("new_player", self)
-   
 
 func _state_logic(_delta):
    super(_delta)
    
 func _get_transition(_delta):
-   match(state):
-      states.idle:
-         pass
-      states.attack:
-         pass
-      states.hurt:
-         pass
    var super_transition = super(_delta)
    if super_transition != null: return super_transition
-
-func _input(event: InputEvent) -> void:
-   if !my_turn: return
-   if event.is_action_pressed("ui_up"): set_state(states.attack)
-   elif event.is_action_pressed("ui_down"): set_state(states.dead)
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int):
    super(viewport, event, shape_idx)

@@ -1,9 +1,11 @@
 class_name Attack
 extends Resource
 
+#TODO add cost to inits
 
 var type: String
 var name: String = "Base"
+var cost: int = 1
 var damage_min: int = 5
 var damage_max: int = 10
 var effects: Array[Effect]
@@ -15,6 +17,9 @@ func _init(p_name: String, p_dam_min: int, p_dam_max: int, p_effects: Array[Effe
    effects = p_effects
 
 func attack(targets: Array[Entity]):
+   if targets.size() == 0:
+      printerr("no targets")
+      return
    targets[0].apply_damage(range(damage_min, damage_max).pick_random())
    targets[0].effects.append_array(effects)
 

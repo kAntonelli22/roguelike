@@ -146,6 +146,12 @@ theme_type_variation = &"SquareButton"
 theme_override_font_sizes/font_size = 32
 text = "End Turn"
 
+[node name="ConfirmAttack" type="Button" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Confirm Attack"
+
 [node name="Spots" type="Node" parent="UI"]
 
 [node name="Player" parent="." instance=ExtResource("3_pwrrh")]
@@ -173,3 +179,4 @@ position = Vector2(896, 264)
 position = Vector2(1024, 376)
 
 [connection signal="pressed" from="UI/MarginContainer/TurnContainer/EndTurn" to="UI" method="_on_end_turn_pressed"]
+[connection signal="pressed" from="UI/MarginContainer/ConfirmAttack" to="UI" method="_on_confirm_attack_pressed"]

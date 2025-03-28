@@ -1,7 +1,7 @@
 class_name Entity
 extends StateMachine
 
-#TODO entity effect array and method that calls each effect
+#TODO each entity holds its own target array
 #TODO rework of attack system
 #TODO overhaul system to allow for multiple attacks and utilize state machine
 #TODO or implement an action queue for each entity that allows it to use the same system but do multiple actions
@@ -23,8 +23,12 @@ var base_class: String = "Knight"
 var health: int = 100
 var action_points: int = 3
 var speed: int             # used to determine turn order
+
+var current_attack: Attack
 var attacks: Array
 var effects: Array
+var action_queue: Array[Action]
+var targets: Array[Entity]
 
 func select():
    is_selected = true
@@ -33,6 +37,7 @@ func select():
 
 func deselect():
    is_selected = false
+   current_attack = null
    selection_ring.hide()
    action_selection.hide()
 
@@ -43,6 +48,27 @@ func apply_damage(damage):
    print_rich("[color=#64649E]Entity[/color]: took ", damage, "damage")
    health -= damage
    set_state(states.hurt)
+   healthbar.value = max(health, 0)
+   if health <= 0:set_state(states.dead)
+   else: set_state(states.hurt)
+
+func start_turn():
+   if action_queue.is_empty(): end_turn()
+   else: do_action(action_queue.pop_front())
+func end_turn():
+   set_state(states.idle)     #HACK should be in get_transition
+   SignalBus.emit_signal("end_turn")
+
+func add_action():
+   action_points -= current_attack.cost
+   action_queue.push_back(Action.new(current_attack, SelectionManager.get_targets()))
+   
+func do_action(action: Action):
+   if action.contained is Effect:
+      action.contained.effect(self)
+   if action.contained is Attack:
+      action.contained.attack(action.targets)
+      set_state(states.attack)
 
 func _ready() -> void:
    print_rich("[color=#64649E]Entity Created[/color]")
@@ -58,37 +84,27 @@ func _ready() -> void:
    speed = get_tree().get_nodes_in_group("Entity").size()
 
 func _state_logic(_delta):
-   $DebugLabel.text = "effects: " + str(effects)
-   if healthbar.value != health: healthbar.value = health
-   if health <= 0 and state != states.dead: set_state(states.dead)
-   match(state):
-      states.idle:
-         pass#if sprite.animation != "idle": sprite.play("idle")
-      states.attack:
-         pass#if sprite.animation != "attack": sprite.play("attack")
-      states.hurt:
-         pass#if sprite.animation != "hurt": sprite.play("hurt")
-      states.dead:
-         pass#if sprite.animation != "die" and sprite.is_playing(): sprite.play("die")
+   healthbar.tooltip_text = _to_string()
    
 func _get_transition(_delta):
-   match(state):
-      states.idle:
-         pass
-      states.attack:
-         if states.attack and sprite.animation != "attack":
-            return states.idle
-      states.hurt:
-         if states.attack and sprite.animation != "hurt":
-            return states.idle
+   if !sprite.is_playing() and state != states.dead: return states.idle     #FIXME doesnt reset
 
 func _enter_state(new_state, old_state):
    sprite.play(states.keys()[new_state])
    if new_state == states.dead: SignalBus.emit_signal("entity_died", self)
 
-func _on_knight_sprite_animation_looped() -> void:
-   if state == states.attack or state == states.hurt: set_state(states.idle)
-
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
    if event.is_action_pressed("select"):
       if !is_selected: SignalBus.emit_signal("selected", self)
+
+func _on_sprite_animation_finished() -> void:
+   if my_turn:
+      if action_queue.is_empty(): end_turn()
+      else: do_action(action_queue.pop_front())
+
+func _to_string() -> String:
+   var string = "is_selected: " + str(is_selected) + "   my_turn: " + str(my_turn)
+   string += " health: " + str(health) + "   action_points: " + str(action_points)
+   string += "\naction_queue: " + str(action_queue) + "  current_attack: " + str(current_attack)
+   string += "\nattacks: " + str(attacks) + "\neffects: " + str(effects) + "\ntargets: " + str(targets)
+   return string

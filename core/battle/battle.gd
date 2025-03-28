@@ -58,7 +58,8 @@ func remove_from_queue(entity: Entity):
    print("removing ", entity, " from queue, ", turn_queue)
    if entity is Player: player_entities.remove_at(player_entities.find(entity))
    if entity is Enemy: enemy_entities.remove_at(enemy_entities.find(entity))
-   turn_queue.remove_at(turn_queue.find(entity))
+   var index = turn_queue.find(entity)
+   if index != -1: turn_queue.remove_at(index)
    ui.remove_from_queue(entity)
    print("queue ", turn_queue)
 

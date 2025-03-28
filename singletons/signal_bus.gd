@@ -4,6 +4,7 @@ extends Node
 # ---- # Battle Signals
 signal battle_ready     # emitted by battle scene when it has connected its signals
 signal turn_button_pressed    # called by the turn button when the player presses it
+signal confirm_attack
 
 # ---- # Entity Signals
 signal new_player(player: Player)   # called by player in ready function

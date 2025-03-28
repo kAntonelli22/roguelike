@@ -1,12 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://e40ytarsr77s"]
+[gd_scene load_steps=8 format=3 uid="uid://e40ytarsr77s"]
 
 [ext_resource type="Script" path="res://core/entities/entity.gd" id="1_sxr4k"]
 [ext_resource type="Texture2D" uid="uid://cf5q0k11ebtek" path="res://core/battle/assets/ringaseprite.aseprite" id="3_csror"]
-[ext_resource type="SpriteFrames" uid="uid://cf8na8xr4fkh0" path="res://core/entities/entity_assets/SpriteFrames/samuraiFrames.tres" id="3_dt58s"]
 [ext_resource type="Texture2D" uid="uid://dxyhtnjbg4veq" path="res://user_interface/ui_assets/progress_bars/Under.png" id="3_lxhkd"]
+[ext_resource type="SpriteFrames" uid="uid://cdhgdl4am7yl" path="res://core/entities/entity_assets/SpriteFrames/mageFrames.tres" id="3_n752g"]
 [ext_resource type="Texture2D" uid="uid://so0qki34syyc" path="res://user_interface/ui_assets/progress_bars/Over.png" id="4_evyur"]
 [ext_resource type="Texture2D" uid="uid://d1utwwftyv7ks" path="res://user_interface/ui_assets/progress_bars/Progress.png" id="5_85kte"]
-[ext_resource type="FontFile" uid="uid://dsx06rm2uvc6r" path="res://user_interface/ui_assets/fonts/itch bundle/AKDPixel.ttf" id="7_8n6bk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_np8il"]
 radius = 40.0
@@ -37,8 +36,8 @@ stretch_mode = 4
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
-sprite_frames = ExtResource("3_dt58s")
-animation = &"dead"
+sprite_frames = ExtResource("3_n752g")
+animation = &"hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
@@ -71,16 +70,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = -7
 
-[node name="DebugLabel" type="Label" parent="."]
-offset_left = -64.0
-offset_top = 96.0
-offset_right = 64.0
-offset_bottom = 128.0
-theme_override_fonts/font = ExtResource("7_8n6bk")
-theme_override_font_sizes/font_size = 16
-text = "dfsdg"
-autowrap_mode = 2
-text_overrun_behavior = 3
-
 [connection signal="input_event" from="." to="." method="_on_input_event"]
-[connection signal="animation_looped" from="Sprite" to="." method="_on_knight_sprite_animation_looped"]
+[connection signal="animation_finished" from="Sprite" to="." method="_on_sprite_animation_finished"]
+[connection signal="animation_looped" from="Sprite" to="." method="_on_sprite_animation_looped"]
