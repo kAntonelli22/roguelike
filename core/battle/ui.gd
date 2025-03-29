@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var turn_queue := $MarginContainer/TurnQueue
 @onready var remaining_points := $MarginContainer/TurnContainer/PointsRemaining
 @onready var turn_button := $MarginContainer/TurnContainer/EndTurn
+@onready var debug_label := $MarginContainer/Label
 @onready var parent = get_parent()
 
 # ---- # Next Turn
@@ -24,6 +25,11 @@ func update_queue(queue: Array[Entity]):
 # ---- # Remove From Queue
 func remove_from_queue(entity: Entity):
    turn_queue.remove_child(turn_queue.get_node(str(entity.name)))
+
+func _process(delta: float) -> void:
+   var debug_string: String = ""
+   debug_string += "SelectionManager\n" + SelectionManager._to_string() + "\n"
+   debug_label.text = debug_string
 
 func _on_end_turn_pressed() -> void:
    if parent.current_entity.current_attack == null and !remaining_points.visible:

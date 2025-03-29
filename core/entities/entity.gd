@@ -17,6 +17,7 @@ extends StateMachine
 # ---- # Variables
 var icon 
 var is_selected: bool = false
+var is_target: bool = false
 var my_turn: bool = false        # changed by the battle scene
 
 var base_class: String = "Knight"
@@ -34,15 +35,18 @@ func select():
    is_selected = true
    selection_ring.show()
    action_selection.show()
-
 func deselect():
    is_selected = false
    current_attack = null
    selection_ring.hide()
    action_selection.hide()
 
-func attack_select(): attack_ring.show()
-func attack_deselect(): attack_ring.hide()
+func attack_select():
+   is_target = true
+   attack_ring.show()
+func attack_deselect():
+   is_target = true
+   attack_ring.hide()
 
 func apply_damage(damage):
    print_rich("[color=#64649E]Entity[/color]: took ", damage, "damage")
@@ -95,7 +99,7 @@ func _enter_state(new_state, old_state):
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
    if event.is_action_pressed("select"):
-      if !is_selected: SignalBus.emit_signal("selected", self)
+      SignalBus.emit_signal("selected", self)
 
 func _on_sprite_animation_finished() -> void:
    if my_turn:
@@ -103,8 +107,8 @@ func _on_sprite_animation_finished() -> void:
       else: do_action(action_queue.pop_front())
 
 func _to_string() -> String:
-   var string = "is_selected: " + str(is_selected) + "   my_turn: " + str(my_turn)
-   string += " health: " + str(health) + "   action_points: " + str(action_points)
-   string += "\naction_queue: " + str(action_queue) + "  current_attack: " + str(current_attack)
-   string += "\nattacks: " + str(attacks) + "\neffects: " + str(effects) + "\ntargets: " + str(targets)
-   return string
+   #var string = "is_selected: " + str(is_selected) + "   my_turn: " + str(my_turn)
+   #string += " health: " + str(health) + "   action_points: " + str(action_points)
+   #string += "\naction_queue: " + str(action_queue) + "  current_attack: " + str(current_attack)
+   #string += "\nattacks: " + str(attacks) + "\neffects: " + str(effects) + "\ntargets: " + str(targets)
+   return name#string

@@ -13,8 +13,14 @@ func _ready() -> void:
 
 
 func select_entity(entity: Entity):
-   if entities_selected.has(entity): entities_selected.remove_at(entities_selected.find(entity))
-   if targets_selected.has(entity): targets_selected.remove_at(targets_selected.find(entity))
+   if entities_selected.has(entity):
+      entities_selected.remove_at(entities_selected.find(entity))
+      entity.deselect()
+      return
+   if targets_selected.has(entity):
+      targets_selected.remove_at(targets_selected.find(entity))
+      entity.attack_deselect()
+      return
    
    if attack_selection:
       if multi_selection:
@@ -59,3 +65,9 @@ func toggle_attack_selection():
 func toggle_multi_selection():
    print_rich("[color=Springgreen]Selection Manager[/color]: multi toggled")
    multi_selection = !multi_selection
+
+func _to_string() -> String:
+   var string: String = "SelectionManager\nmulti: " + str(multi_selection)
+   string += "\tattack: " + str(attack_selection) + "\tentities: " + str(entities_selected)
+   return string
+   
