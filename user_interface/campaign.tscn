@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=3 uid="uid://j5kbolqueuty"]
+
+[ext_resource type="Script" path="res://user_interface/campaign.gd" id="1_qe4ue"]
+[ext_resource type="Texture2D" uid="uid://d2u0systkucq7" path="res://core/entities/entity_assets/wizard/Lightning Mage/Icon.png" id="2_lorq1"]
+[ext_resource type="Texture2D" uid="uid://dyjesk5schgsq" path="res://user_interface/ui_assets/map.aseprite" id="2_y3s64"]
+[ext_resource type="PackedScene" uid="uid://i6np4dkx35f4" path="res://user_interface/encounter.tscn" id="4_eid2c"]
+[ext_resource type="PackedScene" uid="uid://dlpht0u33tj5w" path="res://core/battle/battle.tscn" id="5_lu6ag"]
+[ext_resource type="PackedScene" uid="uid://neqghf6gfg36" path="res://user_interface/village.tscn" id="6_jrjd3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gh4xs"]
+radius = 1.00467
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ctffr"]
+vertices = PackedVector2Array(1085, 294, 1085, 334, 920, 243, 920, 222, 754, 390, 754, 410, 186, 279, 65, 342, 65, 318, 186, 258, 262, 334, 262, 355, 445, 263, 445, 243, 550, 349, 550, 370, 612, 339, 612, 319)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5), PackedInt32Array(6, 7, 8, 9), PackedInt32Array(6, 9, 10, 11), PackedInt32Array(12, 11, 10, 13), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(16, 15, 14, 17), PackedInt32Array(4, 5, 16, 17)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(65, 318, 186, 258, 262, 334, 445, 243, 550, 349, 612, 319, 754, 390, 920, 222, 1085, 294, 1085, 334, 920, 243, 754, 410, 612, 339, 550, 370, 445, 263, 262, 355, 186, 279, 65, 342)])
+agent_radius = 0.0
+
+[node name="Campaign" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qe4ue")
+
+[node name="CampaignMap" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_y3s64")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(65, 330)
+rotation = -3.14159
+
+[node name="PlayerMarker" type="Sprite2D" parent="Player"]
+position = Vector2(-0.00567627, 0.143845)
+rotation = 3.14159
+texture = ExtResource("2_lorq1")
+
+[node name="Collider" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.00567627, 0.14386)
+rotation = 2.85014
+shape = SubResource("CircleShape2D_gh4xs")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="Player"]
+path_desired_distance = 10.0
+path_postprocessing = 1
+debug_enabled = true
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_ctffr")
+
+[node name="Encounters" type="Node" parent="."]
+
+[node name="Encounter" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(186, 268)
+scale = Vector2(0.933787, 0.937836)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter2" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(262, 344)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter3" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(444, 253)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter4" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(551, 359)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter5" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(612, 329)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter6" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(753, 400)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter7" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(920, 233)
+scene = ExtResource("5_lu6ag")
+
+[node name="Encounter8" parent="Encounters" instance=ExtResource("4_eid2c")]
+position = Vector2(1082, 315)
+scene = ExtResource("6_jrjd3")

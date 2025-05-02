@@ -1,10 +1,10 @@
 class_name Entity
 extends StateMachine
 
+#TODO display damage when attack is selected and entity is hovered over
 #TODO each entity holds its own target array
-#TODO rework of attack system
-#TODO overhaul system to allow for multiple attacks and utilize state machine
-#TODO or implement an action queue for each entity that allows it to use the same system but do multiple actions
+#TODO remove action queue and replace it with immediate attacks
+#FIXME sprite does not transition out of hurt state until end of turn
 #FIXME sprite frames need to be adjusted
 
 # ---- # Nodes
@@ -29,7 +29,6 @@ var current_attack: Attack
 var attacks: Array
 var effects: Array
 var action_queue: Array[Action]
-var targets: Array[Entity]
 
 func select():
    is_selected = true
@@ -49,9 +48,8 @@ func attack_deselect():
    attack_ring.hide()
 
 func apply_damage(damage):
-   print_rich("[color=#64649E]Entity[/color]: took ", damage, "damage")
+   Util.print(["took ", damage, " damage"])
    health -= damage
-   set_state(states.hurt)
    healthbar.value = max(health, 0)
    if health <= 0:set_state(states.dead)
    else: set_state(states.hurt)
@@ -60,12 +58,18 @@ func start_turn():
    if action_queue.is_empty(): end_turn()
    else: do_action(action_queue.pop_front())
 func end_turn():
+   Util.print(["ending turn"], self.name)
    set_state(states.idle)     #HACK should be in get_transition
    SignalBus.emit_signal("end_turn")
 
 func add_action():
-   action_points -= current_attack.cost
    action_queue.push_back(Action.new(current_attack, SelectionManager.get_targets()))
+   #if action_points - current_attack.cost >= 0:
+      #action_points -= current_attack.cost
+      #action_queue.push_back(Action.new(current_attack, SelectionManager.get_targets()))
+   #else:
+      #current_attack = null
+      #SelectionManager.deselect_all(SelectionManager.targets_selected)
    
 func do_action(action: Action):
    if action.contained is Effect:
@@ -76,6 +80,7 @@ func do_action(action: Action):
 
 func _ready() -> void:
    print_rich("[color=#64649E]Entity Created[/color]")
+   Util.print(["Entity created"])
    sprite.sprite_frames = Global.classes[base_class]["sprite"]
    icon = Global.classes[base_class]["icon"]
    attacks = Global.classes[base_class]["attacks"]
@@ -100,6 +105,8 @@ func _enter_state(new_state, old_state):
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
    if event.is_action_pressed("select"):
       SignalBus.emit_signal("selected", self)
+   if event.is_action_pressed("action"):
+      SignalBus.emit_signal("action", self)
 
 func _on_sprite_animation_finished() -> void:
    if my_turn:

@@ -2,6 +2,7 @@ class_name Player
 extends Entity
 
 #TODO actually use the state machine for more than just animations
+#FIXME player can spam click to attack multiple times
 
 func create_actions():
    for i in range(0, attacks.size()):
@@ -12,11 +13,17 @@ func create_actions():
       button.pressed.connect(attack_num.bind(button))
 
 func attack_num(button):
-   print_rich("[color=Royalblue]Player[/color]: attack ", button.text, " chosen")
+   Util.print(["attack ", button.text, " chosen"], self.name)
    var new_attack = attacks[button.name.to_int()]
-   current_attack = new_attack if current_attack != new_attack else null
-   SelectionManager.attack_selection = current_attack != null
-   SelectionManager.multi_selection = new_attack is Attack.MultiTarget
+   current_attack = new_attack if current_attack != new_attack else null   #FIXME bad reset causes current attack to be null when a new attack is chosen
+   Util.print(["current_attack ", current_attack], self.name)
+
+func attack(target: Entity):
+   if !my_turn: return
+   Util.print(["attack ", current_attack], self.name)
+   if current_attack.target_count >= SelectionManager.targets_selected.size():
+      current_attack.attack(SelectionManager.get_targets())
+      set_state(states.attack)
 
 func add_action():
    if my_turn: super()
@@ -32,7 +39,8 @@ func _ready() -> void:
    health = Global.player_stats.health
    action_points = Global.player_stats.action_points
    SignalBus.connect("turn_button_pressed", finish_turn)
-   SignalBus.connect("confirm_attack", add_action)
+   #SignalBus.connect("confirm_attack", add_action)
+   SignalBus.connect("target_selected", attack)
    create_actions()
    await SignalBus.battle_ready
    SignalBus.emit_signal("new_player", self)

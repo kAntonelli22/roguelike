@@ -1,73 +1,58 @@
 extends Node
 
-# ---- # Variables
-var attack_selection
-var multi_selection
 
+# ---- # Variables
 var entities_selected: Array[Entity] = []
 var targets_selected: Array[Entity] = []
 
 func _ready() -> void:
    SignalBus.connect("selected", select_entity)
-   SignalBus.connect("end_turn", next_turn)
+   SignalBus.connect("action", attack_select_entity)
+   SignalBus.connect("end_turn", reset)
 
+func attack_select_entity(entity: Entity):
+   if targets_selected.has(entity):
+      targets_selected.remove_at(targets_selected.find(entity))
+      entity.attack_deselect()
+      return
+
+   targets_selected.append(entity)
+   entity.attack_select()
+   Util.print(["target selected"])
+   SignalBus.emit_signal("target_selected", entity)
 
 func select_entity(entity: Entity):
    if entities_selected.has(entity):
       entities_selected.remove_at(entities_selected.find(entity))
       entity.deselect()
       return
-   if targets_selected.has(entity):
-      targets_selected.remove_at(targets_selected.find(entity))
-      entity.attack_deselect()
-      return
    
-   if attack_selection:
-      if multi_selection:
-         targets_selected.append(entity)
-         entity.attack_select()
-      else:
-         deselect_all(targets_selected)
-         targets_selected.append(entity)
-         entity.attack_select()
-   else:
-      if multi_selection:
-         entities_selected.append(entity)
-         entity.select()
-      else:
-         deselect_all(entities_selected)
-         entities_selected.append(entity)
-         entity.select()
+   deselect_all(entities_selected)
+   entities_selected.append(entity)
+   entity.select()
 
 func deselect_all(array):
-   print_rich("[color=Springgreen]Selection Manager[/color]: clearing array")
+   #Util.print(["clearing array"])
    for element in array:
          element.deselect()
          element.attack_deselect()
    array.clear()
 
 func get_targets() -> Array[Entity]:
-   print_rich("[color=Springgreen]Selection Manager[/color]: providing target array duplicate")
+   Util.print(["providing target array duplicate"])
    var array = targets_selected.duplicate()
    deselect_all(targets_selected)
    return array
 
-func next_turn():
+func set_targets(new_targets: Array[Entity]) -> void:
+   targets_selected = new_targets
+
+func reset():
    deselect_all(entities_selected)
    deselect_all(targets_selected)
-   attack_selection = false
-   multi_selection = false
-
-func toggle_attack_selection():
-   print_rich("[color=Springgreen]Selection Manager[/color]: attack toggled")
-   attack_selection = !attack_selection
-
-func toggle_multi_selection():
-   print_rich("[color=Springgreen]Selection Manager[/color]: multi toggled")
-   multi_selection = !multi_selection
 
 func _to_string() -> String:
-   var string: String = "SelectionManager\nmulti: " + str(multi_selection)
-   string += "\tattack: " + str(attack_selection) + "\tentities: " + str(entities_selected)
+   var string: String = "SelectionManager\n"
+   string += "\ttargets: " + str(targets_selected) + "\tentities: " + str(entities_selected)
    return string
    

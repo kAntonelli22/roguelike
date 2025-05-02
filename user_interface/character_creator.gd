@@ -1,6 +1,5 @@
 extends Control
 
-#TODO campaign map scene where player moves along a linear path to the next fight and village/town
 
 # ---- # Nodes
 @onready var left_arrow: Button = $ColorRect/MarginContainer/VBoxContainer/ClassSelection/LeftArrow

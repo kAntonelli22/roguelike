@@ -1,7 +1,7 @@
 class_name Action
 extends Resource
 
-#TODO implement Action class
+
 
 var contained
 var targets: Array[Entity] = []

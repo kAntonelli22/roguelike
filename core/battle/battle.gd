@@ -29,39 +29,44 @@ func next_turn():
    current_entity.my_turn = false
    turn_queue.push_back(current_entity)
    
-   #FIXME battle takes an extra turn to end
-   if player_entities.is_empty():
-      get_tree().change_scene_to_packed(Global.village_scene)
-      print_rich("[color=Crimson]Game Over[/color]")
-   elif enemy_entities.is_empty():
-      get_tree().change_scene_to_packed(Global.village_scene)
-      print_rich("[color=Green]You Won[/color]")
-   
    current_entity = turn_queue.pop_front()
    ui.next_turn(true) if current_entity is Enemy else ui.next_turn(false)
    current_entity.my_turn = true
    SelectionManager.select_entity(current_entity)
-   print_rich("[color=#64649E]Battle Scene[/color]: ", current_entity.name, " begining turn")
+   Util.print([current_entity.name, " beginning turn"])
+   #print_rich("[color=#64649E]Battle Scene[/color]: ", current_entity.name, " begining turn")
 
 # ---- # New Player
 func new_player(player: Player):
    player_entities.append(player)
-   print_rich("[color=#64649E]Battle Scene[/color]: [color=Royalblue]player[/color] added")
+   Util.print(["[color=Royalblue]player[/color] added"])
+   #print_rich("[color=#64649E]Battle Scene[/color]: [color=Royalblue]player[/color] added")
 
 # ---- # New Enemy
 func new_enemy(enemy: Enemy):
    enemy_entities.append(enemy)
-   print_rich("[color=#64649E]Battle Scene[/color]: [color=Crimson]enemy[/color] added")
+   Util.print(["[color=Crimson]enemy[/color] added"])
+   #print_rich("[color=#64649E]Battle Scene[/color]: [color=Crimson]enemy[/color] added")
 
 # ---- # Remove From Queue
 func remove_from_queue(entity: Entity):
-   print("removing ", entity, " from queue, ", turn_queue)
+   Util.print(["removing ", entity, " from ", player_entities if entity is Player else enemy_entities])
    if entity is Player: player_entities.remove_at(player_entities.find(entity))
    if entity is Enemy: enemy_entities.remove_at(enemy_entities.find(entity))
    var index = turn_queue.find(entity)
    if index != -1: turn_queue.remove_at(index)
    ui.remove_from_queue(entity)
-   print("queue ", turn_queue)
+   
+   if player_entities.is_empty():
+      Global.player_stats.campaign_position += 1
+      SelectionManager.reset()
+      get_tree().change_scene_to_packed(Global.map_scene)
+      Util.print(["[color=Crimson]Game Over[/color]"])
+   elif enemy_entities.is_empty():
+      Global.player_stats.campaign_position += 1
+      SelectionManager.reset()
+      get_tree().change_scene_to_packed(Global.map_scene)
+      Util.print(["[color=Green]You Won[/color]"])
 
 # ---- # Merge Arrays
 func merge_arrays():

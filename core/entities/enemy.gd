@@ -2,7 +2,6 @@ class_name Enemy
 extends Entity
 
 #TODO actually use the state machine for more than just animations
-#FIXME enemy gets stuck in infinite loop
 
 func create_actions():
    for i in range(0, attacks.size()):
@@ -13,16 +12,19 @@ func create_actions():
       #button.pressed.connect(attack_num.bind(button))
 
 # ---- # Enemy Turn
-#TODO create basic enemy turn logic
 func enemy_turn():
+   Util.print(["start of enemy turn, actions: ", action_points], self.name)
    while(action_points > 0):
-      var targets: Array[Entity]
+      Util.print(["start of enemy loop, actions: ", action_points], self.name)
+      var targets: Array[Entity] = []
       current_attack = attacks.pick_random()
-      if current_attack is Attack.MultiTarget:
-         targets.append(get_parent().player_entities.pick_random(current_attack.target_count)) 
-      else:
-         #HACK code is innefficient and breaks signal up structure
-         targets.append(get_parent().player_entities.pick_random())
+      #HACK code is innefficient and breaks signal up structure
+      var temp = get_parent().player_entities
+      for i in range(0, current_attack.target_count):
+         Util.print(["temp ", temp, "   dsadasdasdasdadssdatargets ", targets, "   target count", current_attack.target_count], self.name)
+         targets.append(temp.pick_random())
+         action_points -= current_attack.cost
+      SelectionManager.set_targets(targets)
       add_action()
    start_turn()
 

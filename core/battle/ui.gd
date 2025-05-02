@@ -40,5 +40,6 @@ func _on_end_turn_pressed() -> void:
       SignalBus.emit_signal("turn_button_pressed", parent.current_entity)
 
 
+#HACK remove once new attack system is implemented
 func _on_confirm_attack_pressed() -> void:
    SignalBus.emit_signal("confirm_attack")
