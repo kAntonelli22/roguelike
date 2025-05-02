@@ -13,17 +13,17 @@ func create_actions():
 
 # ---- # Enemy Turn
 func enemy_turn():
-   Util.print(["start of enemy turn, actions: ", action_points], self.name)
-   while(action_points > 0):
-      Util.print(["start of enemy loop, actions: ", action_points], self.name)
+   Util.print(["start of enemy turn, actions: ", actions], self.name)
+   while(actions > 0):
+      Util.print(["start of enemy loop, actions: ", actions], self.name)
       var targets: Array[Entity] = []
       current_attack = attacks.pick_random()
       #HACK code is innefficient and breaks signal up structure
       var temp = get_parent().player_entities
       for i in range(0, current_attack.target_count):
-         Util.print(["temp ", temp, "   dsadasdasdasdadssdatargets ", targets, "   target count", current_attack.target_count], self.name)
+         Util.print(["temp ", temp, "   targets ", targets, "   target count", current_attack.target_count], self.name)
          targets.append(temp.pick_random())
-         action_points -= current_attack.cost
+         actions -= current_attack.cost
       SelectionManager.set_targets(targets)
       add_action()
    start_turn()
@@ -32,8 +32,6 @@ func _ready() -> void:
    super()
    add_to_group("Enemy")
    health = 50
-   action_points = 3
-   #$SelectionRing.modulate = Color(1, 0, 0)
    await SignalBus.battle_ready
    SignalBus.emit_signal("new_enemy", self)
 

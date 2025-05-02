@@ -1,6 +1,8 @@
 extends Node2D
 
-#TODO implement a spot system to alloow players to decide where their members are placed
+#TODO implement a spot system to allow players to decide where their members are placed
+#TODO replace debug entity creation with party resource based entity creation
+#FIXME battle scene attempts to remove already dead enemies if they have been attacked again
 
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI

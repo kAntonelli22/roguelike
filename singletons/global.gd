@@ -13,6 +13,7 @@ var battle_scene := load("res://core/battle/battle.tscn")         #HACK cyclical
 
 # ---- # Resources
 var player_stats: PlayerStats = PlayerStats.new()
+var party: Party = Party.new()
 
 # ---- # Textures
 var godot_icon = preload("res://icon.svg")

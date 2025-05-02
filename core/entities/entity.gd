@@ -2,8 +2,6 @@ class_name Entity
 extends StateMachine
 
 #TODO display damage when attack is selected and entity is hovered over
-#TODO each entity holds its own target array
-#TODO remove action queue and replace it with immediate attacks
 #FIXME sprite does not transition out of hurt state until end of turn
 #FIXME sprite frames need to be adjusted
 
@@ -14,6 +12,12 @@ extends StateMachine
 @onready var attack_ring := $AttackRing
 @onready var action_selection = $ActionSelection
 
+# ---- # Stat Const
+var ACTIONS: int = 3
+var HEALTH: int = 100
+var SPEED: int = 3
+
+
 # ---- # Variables
 var icon 
 var is_selected: bool = false
@@ -22,7 +26,7 @@ var my_turn: bool = false        # changed by the battle scene
 
 var base_class: String = "Knight"
 var health: int = 100
-var action_points: int = 3
+var actions: int = 3
 var speed: int             # used to determine turn order
 
 var current_attack: Attack
@@ -50,7 +54,8 @@ func attack_deselect():
 func apply_damage(damage):
    Util.print(["took ", damage, " damage"])
    health -= damage
-   healthbar.value = max(health, 0)
+   health = clamp(health, 0, HEALTH)
+   healthbar.value = health
    if health <= 0:set_state(states.dead)
    else: set_state(states.hurt)
 
@@ -60,12 +65,13 @@ func start_turn():
 func end_turn():
    Util.print(["ending turn"], self.name)
    set_state(states.idle)     #HACK should be in get_transition
+   actions = ACTIONS
    SignalBus.emit_signal("end_turn")
 
 func add_action():
    action_queue.push_back(Action.new(current_attack, SelectionManager.get_targets()))
-   #if action_points - current_attack.cost >= 0:
-      #action_points -= current_attack.cost
+   #if actions - current_attack.cost >= 0:
+      #actions -= current_attack.cost
       #action_queue.push_back(Action.new(current_attack, SelectionManager.get_targets()))
    #else:
       #current_attack = null
@@ -79,7 +85,6 @@ func do_action(action: Action):
       set_state(states.attack)
 
 func _ready() -> void:
-   print_rich("[color=#64649E]Entity Created[/color]")
    Util.print(["Entity created"])
    sprite.sprite_frames = Global.classes[base_class]["sprite"]
    icon = Global.classes[base_class]["icon"]
@@ -115,7 +120,7 @@ func _on_sprite_animation_finished() -> void:
 
 func _to_string() -> String:
    #var string = "is_selected: " + str(is_selected) + "   my_turn: " + str(my_turn)
-   #string += " health: " + str(health) + "   action_points: " + str(action_points)
+   #string += " health: " + str(health) + "   actions: " + str(actions)
    #string += "\naction_queue: " + str(action_queue) + "  current_attack: " + str(current_attack)
    #string += "\nattacks: " + str(attacks) + "\neffects: " + str(effects) + "\ntargets: " + str(targets)
    return name#string

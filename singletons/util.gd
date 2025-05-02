@@ -21,7 +21,7 @@ var class_colors = {
 
 # ---- # debug print that uses class colors and adds the line it was called from
 var left_padding: int = 20
-var center_padding: int = 100
+var center_padding: int = 125
 
 # HACK dynamic formatting is off
 func print(args: Array, caller: String = ""):
@@ -49,11 +49,13 @@ func print(args: Array, caller: String = ""):
       final += ln_name
       print_rich(final)
       return
-      
+   
+   #FIXME doesnt function correctly
+   var offset: int = 0
    while(text.length() > center_padding + printer.length()):
-      var first = final.substr(0, center_padding + printer.length())
-      var second = ".".lpad(bbcode-1) + " | "
-      second += final.substr(center_padding + text.length())
-      final += first + " " + str(ln_name) + "\n"
+      var first = final.substr(0, center_padding + printer.length() + offset)
+      var second = ".".lpad(bbcode-1) + " | " + final.substr(center_padding + text.length() + offset)
+      final += first + " " + str(ln_name) + "\n" + second
+      offset += first.length()
       text.erase(0, center_padding + printer.length())
    print_rich(final)

@@ -20,8 +20,8 @@ func attack_num(button):
 
 func attack(target: Entity):
    if !my_turn: return
-   Util.print(["attack ", current_attack], self.name)
-   if current_attack.target_count >= SelectionManager.targets_selected.size():
+   Util.print(["attack ", current_attack, "   t count: ", SelectionManager.targets_selected.size(), "/", current_attack.target_count], self.name)
+   if SelectionManager.targets_selected.size() >= current_attack.target_count:
       current_attack.attack(SelectionManager.get_targets())
       set_state(states.attack)
 
@@ -37,9 +37,8 @@ func _ready() -> void:
    super()
    add_to_group("Player")
    health = Global.player_stats.health
-   action_points = Global.player_stats.action_points
+   actions = Global.player_stats.actions
    SignalBus.connect("turn_button_pressed", finish_turn)
-   #SignalBus.connect("confirm_attack", add_action)
    SignalBus.connect("target_selected", attack)
    create_actions()
    await SignalBus.battle_ready
