@@ -2,8 +2,7 @@ class_name Entity
 extends StateMachine
 
 #TODO display damage when attack is selected and entity is hovered over
-#FIXME sprite does not transition out of hurt state until end of turn
-#FIXME sprite frames need to be adjusted
+#HACK sprite frames need to be adjusted
 
 # ---- # Nodes
 @onready var sprite := $Sprite
@@ -60,10 +59,11 @@ func apply_damage(damage):
    else: set_state(states.hurt)
 
 func start_turn():
+   Util.print(["starting turn completion logic, action queue ", action_queue], self.name)
    if action_queue.is_empty(): end_turn()
    else: do_action(action_queue.pop_front())
 func end_turn():
-   Util.print(["ending turn"], self.name)
+   Util.print(["ending turn, remaining actions ", actions], self.name)
    set_state(states.idle)     #HACK should be in get_transition
    actions = ACTIONS
    SignalBus.emit_signal("end_turn")
@@ -101,7 +101,7 @@ func _state_logic(_delta):
    healthbar.tooltip_text = _to_string()
    
 func _get_transition(_delta):
-   if !sprite.is_playing() and state != states.dead: return states.idle     #FIXME doesnt reset
+   if !sprite.is_playing() and state != states.dead: return states.idle
 
 func _enter_state(new_state, old_state):
    sprite.play(states.keys()[new_state])
@@ -115,8 +115,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 func _on_sprite_animation_finished() -> void:
    if my_turn:
-      if action_queue.is_empty(): end_turn()
-      else: do_action(action_queue.pop_front())
+      if action_queue.is_empty() and actions <= 0: end_turn()
+      elif !action_queue.is_empty(): do_action(action_queue.pop_front())
 
 func _to_string() -> String:
    #var string = "is_selected: " + str(is_selected) + "   my_turn: " + str(my_turn)

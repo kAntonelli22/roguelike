@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
    if state != null:
       _state_logic(delta)
       var transition = _get_transition(delta)
-      if transition: set_state(transition)
+      if transition != null: set_state(transition)
    
 func _state_logic(_delta): pass
 func _get_transition(_delta): return null

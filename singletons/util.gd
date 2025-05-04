@@ -11,19 +11,13 @@ var class_colors = {
    "player": "[color=Royalblue]Player[/color]",
    "enemy": "[color=Crimson]Enemy[/color]",
    "selection_manager": "[color=Springgreen]SelectionManager[/color]",
-   #"abstract_fsm": "FSM",
-   #"battle": "Battle Scene",
-   #"entity": "Entity",
-   #"player": "Player",
-   #"enemy": "Enemy",
-   #"selection_manager": "SelectionManager",
 }
 
 # ---- # debug print that uses class colors and adds the line it was called from
 var left_padding: int = 20
 var center_padding: int = 125
 
-# HACK dynamic formatting is off
+#HACK bbcode in text causes formatting to be off
 func print(args: Array, caller: String = ""):
    var stack = get_stack()
    var ln = -1

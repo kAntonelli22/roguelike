@@ -20,7 +20,7 @@ func set_player_position(encounter_num: int):
       var child = encounters.get_child(i)
       player.position = child.position
       child.queue_free()
-      remove_child(child)
+      encounters.remove_child(child)
 
 # ---- # Ready
 func _ready() -> void:

@@ -2,7 +2,6 @@ extends Node2D
 
 #TODO implement a spot system to allow players to decide where their members are placed
 #TODO replace debug entity creation with party resource based entity creation
-#FIXME battle scene attempts to remove already dead enemies if they have been attacked again
 
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI
@@ -32,11 +31,11 @@ func next_turn():
    turn_queue.push_back(current_entity)
    
    current_entity = turn_queue.pop_front()
+   @warning_ignore("standalone_ternary")
    ui.next_turn(true) if current_entity is Enemy else ui.next_turn(false)
    current_entity.my_turn = true
    SelectionManager.select_entity(current_entity)
    Util.print([current_entity.name, " beginning turn"])
-   #print_rich("[color=#64649E]Battle Scene[/color]: ", current_entity.name, " begining turn")
 
 # ---- # New Player
 func new_player(player: Player):
@@ -51,24 +50,21 @@ func new_enemy(enemy: Enemy):
    #print_rich("[color=#64649E]Battle Scene[/color]: [color=Crimson]enemy[/color] added")
 
 # ---- # Remove From Queue
-func remove_from_queue(entity: Entity):
-   Util.print(["removing ", entity, " from ", player_entities if entity is Player else enemy_entities])
-   if entity is Player: player_entities.remove_at(player_entities.find(entity))
-   if entity is Enemy: enemy_entities.remove_at(enemy_entities.find(entity))
+func remove_from_queue(entity: Entity):   
+   if entity is Player:
+      var p_index: int = player_entities.find(entity)
+      if p_index == -1: return
+      player_entities.remove_at(p_index)
+   if entity is Enemy:
+      var e_index: int = enemy_entities.find(entity)
+      if e_index == -1: return
+      enemy_entities.remove_at(e_index)
+   
    var index = turn_queue.find(entity)
    if index != -1: turn_queue.remove_at(index)
    ui.remove_from_queue(entity)
    
-   if player_entities.is_empty():
-      Global.player_stats.campaign_position += 1
-      SelectionManager.reset()
-      get_tree().change_scene_to_packed(Global.map_scene)
-      Util.print(["[color=Crimson]Game Over[/color]"])
-   elif enemy_entities.is_empty():
-      Global.player_stats.campaign_position += 1
-      SelectionManager.reset()
-      get_tree().change_scene_to_packed(Global.map_scene)
-      Util.print(["[color=Green]You Won[/color]"])
+   if player_entities.is_empty() or enemy_entities.is_empty(): end_battle()
 
 # ---- # Merge Arrays
 func merge_arrays():
@@ -83,3 +79,9 @@ func merge_arrays():
 func sort_queue(e1: Entity, e2: Entity):
    if e1.speed < e2.speed: return true    #HACK temporary < until an actual speed system is implemented
    else: return false
+
+# ---- # End Battle
+func end_battle():
+   Global.player_stats.campaign_position += 1
+   SelectionManager.reset()
+   get_tree().change_scene_to_packed(Global.map_scene)

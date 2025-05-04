@@ -44,6 +44,7 @@ func _get_transition(_delta):
    if super_transition != null: return super_transition
 
 # ---- # Exit State
+@warning_ignore("shadowed_variable")
 func _exit_state(previous_state, new_state):
    pass
 

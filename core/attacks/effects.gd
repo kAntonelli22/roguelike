@@ -18,6 +18,7 @@ class Healing extends Effect:
       healing_percent = p_healing_percent
    
    func effect(entity: Entity):
+      @warning_ignore("narrowing_conversion")
       entity.health *= healing_percent
 
 class Damage extends Effect:

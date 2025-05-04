@@ -2,7 +2,6 @@ extends Node
 
 #FIXME godot is still looking for Singleton instead of singleton
 #TODO player party system that holds an array of player stat resources for each member
-#TODO create util global
 
 # ---- # PackedScene
 var titlescreen_scene := preload("res://user_interface/title.tscn")
