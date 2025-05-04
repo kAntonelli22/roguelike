@@ -10,8 +10,12 @@ var village_scene := preload("res://user_interface/village.tscn")
 var map_scene := load("res://user_interface/campaign.tscn")
 var battle_scene := load("res://core/battle/battle.tscn")         #HACK cyclical reference when returning to village
 
+# ---- # Player and Enemy Scenes
+var player := preload("res://core/entities/player.tscn")
+var enemy := preload("res://core/entities/enemy.tscn")
+
 # ---- # Resources
-var player_stats: PlayerStats = PlayerStats.new()
+#var player_stats: PlayerStats = PlayerStats.new()
 var party: Party = Party.new()
 
 # ---- # Textures

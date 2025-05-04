@@ -17,20 +17,20 @@ script = ExtResource("1_sxr4k")
 
 [node name="SelectionRing" type="TextureRect" parent="."]
 visible = false
-offset_left = -96.0
-offset_top = 32.0
-offset_right = 96.0
-offset_bottom = 128.0
+offset_left = -92.0
+offset_top = 36.0
+offset_right = 92.0
+offset_bottom = 108.0
 texture = ExtResource("3_csror")
 stretch_mode = 4
 
 [node name="AttackRing" type="TextureRect" parent="."]
 visible = false
 modulate = Color(1, 0.0470588, 0.0901961, 1)
-offset_left = -96.0
-offset_top = 32.0
-offset_right = 96.0
-offset_bottom = 128.0
+offset_left = -92.0
+offset_top = 36.0
+offset_right = 92.0
+offset_bottom = 108.0
 texture = ExtResource("3_csror")
 stretch_mode = 4
 

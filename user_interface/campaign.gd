@@ -24,7 +24,7 @@ func set_player_position(encounter_num: int):
 
 # ---- # Ready
 func _ready() -> void:
-   set_player_position(Global.player_stats.campaign_position)
+   set_player_position(Global.party.campaign_position)
    nav_agent.target_position = Vector2(1085, 310)
 
 # ---- # Physics process

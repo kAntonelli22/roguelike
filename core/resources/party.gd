@@ -6,3 +6,6 @@ extends Resource
 @export var members: Array[PlayerStats]
 
 @export var campaign_position: int
+
+func add_member(member: PlayerStats):
+   members.append(member)

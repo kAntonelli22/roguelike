@@ -1,11 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlpht0u33tj5w"]
+[gd_scene load_steps=6 format=3 uid="uid://dlpht0u33tj5w"]
 
 [ext_resource type="Script" path="res://core/battle/battle.gd" id="1_2ebqg"]
 [ext_resource type="Script" path="res://core/battle/ui.gd" id="2_qqiwe"]
 [ext_resource type="Texture2D" uid="uid://wskuqy31lfdo" path="res://core/battle/assets/forest_battle.jpg" id="2_r23pm"]
-[ext_resource type="PackedScene" uid="uid://bbq3aqpr1ywob" path="res://core/entities/player.tscn" id="3_pwrrh"]
 [ext_resource type="Texture2D" uid="uid://bsmte7cekp6mf" path="res://core/battle/assets/circle.aseprite" id="3_xcre0"]
-[ext_resource type="PackedScene" uid="uid://eiw6acf4xft7" path="res://core/entities/enemy.tscn" id="4_gebkq"]
 [ext_resource type="FontFile" uid="uid://c5ovkvee1f7t" path="res://user_interface/ui_assets/fonts/itch bundle/c64esque.ttf" id="5_sjvlb"]
 
 [node name="Battle" type="Node2D"]
@@ -22,37 +20,37 @@ texture = ExtResource("2_r23pm")
 
 [node name="Spot1" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 192.0
-offset_top = 496.0
-offset_right = 384.0
-offset_bottom = 592.0
+offset_left = 328.0
+offset_top = 392.0
+offset_right = 512.0
+offset_bottom = 464.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot2" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 320.0
-offset_top = 392.0
-offset_right = 512.0
-offset_bottom = 488.0
+offset_left = 200.0
+offset_top = 504.0
+offset_right = 384.0
+offset_bottom = 576.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot3" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 160.0
-offset_top = 296.0
-offset_right = 352.0
+offset_left = 128.0
+offset_top = 320.0
+offset_right = 312.0
 offset_bottom = 392.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot4" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 32.0
-offset_top = 408.0
-offset_right = 224.0
-offset_bottom = 504.0
+offset_left = 8.0
+offset_top = 440.0
+offset_right = 192.0
+offset_bottom = 512.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
@@ -60,35 +58,35 @@ stretch_mode = 4
 z_index = -1
 offset_left = 640.0
 offset_top = 392.0
-offset_right = 832.0
-offset_bottom = 488.0
+offset_right = 824.0
+offset_bottom = 464.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot6" type="TextureRect" parent="Spots"]
 z_index = -1
 offset_left = 768.0
-offset_top = 496.0
-offset_right = 960.0
-offset_bottom = 592.0
+offset_top = 504.0
+offset_right = 952.0
+offset_bottom = 576.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot7" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 928.0
-offset_top = 408.0
-offset_right = 1120.0
-offset_bottom = 504.0
+offset_left = 840.0
+offset_top = 320.0
+offset_right = 1024.0
+offset_bottom = 392.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
 [node name="Spot8" type="TextureRect" parent="Spots"]
 z_index = -1
-offset_left = 800.0
-offset_top = 296.0
-offset_right = 992.0
-offset_bottom = 392.0
+offset_left = 960.0
+offset_top = 440.0
+offset_right = 1144.0
+offset_bottom = 512.0
 texture = ExtResource("3_xcre0")
 stretch_mode = 4
 
@@ -99,6 +97,8 @@ script = ExtResource("2_qqiwe")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -168,29 +168,5 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="Spots" type="Node" parent="UI"]
-
-[node name="Player" parent="." instance=ExtResource("3_pwrrh")]
-position = Vector2(416, 360)
-
-[node name="Player2" parent="." instance=ExtResource("3_pwrrh")]
-position = Vector2(288, 464)
-
-[node name="Player3" parent="." instance=ExtResource("3_pwrrh")]
-position = Vector2(256, 264)
-
-[node name="Player4" parent="." instance=ExtResource("3_pwrrh")]
-position = Vector2(128, 376)
-
-[node name="Enemy" parent="." instance=ExtResource("4_gebkq")]
-position = Vector2(736, 360)
-
-[node name="Enemy2" parent="." instance=ExtResource("4_gebkq")]
-position = Vector2(864, 464)
-
-[node name="Enemy3" parent="." instance=ExtResource("4_gebkq")]
-position = Vector2(896, 264)
-
-[node name="Enemy4" parent="." instance=ExtResource("4_gebkq")]
-position = Vector2(1024, 376)
 
 [connection signal="pressed" from="UI/MarginContainer/TurnContainer/EndTurn" to="UI" method="_on_end_turn_pressed"]

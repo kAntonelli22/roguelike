@@ -39,8 +39,10 @@ func _on_right_arrow_pressed() -> void:
    
 # ---- # Start Game
 func _on_start_pressed() -> void:
-   Global.player_stats.base_class = selected_class
-   Global.player_stats.name = char_name
+   var player: PlayerStats = PlayerStats.new()
+   player.base_class = selected_class
+   player.name = char_name
+   Global.party.add_member(player)
    get_tree().change_scene_to_packed(Global.village_scene)
 
 # ---- # Return To Menu

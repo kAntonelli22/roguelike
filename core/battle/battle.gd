@@ -5,6 +5,7 @@ extends Node2D
 
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI
+@onready var spots: Node = $Spots
 
 # ---- # Variables
 var turn_count: int = 0
@@ -18,6 +19,21 @@ func _ready() -> void:
    SignalBus.connect("new_player", new_player)
    SignalBus.connect("new_enemy", new_enemy)
    SignalBus.connect("entity_died", remove_from_queue)
+   for i in Global.party.members.size():
+      var player = Global.player.instantiate()
+      player.stats = Global.party.members[i]
+      var player_spot = spots.get_child(i)
+      player.position = player_spot.get_rect().get_center() - Vector2(0, player_spot.get_rect().size.y)
+      #player.position = Vector2(player_spot.position.x + player_spot.size.x / 2, player_spot.position.y - player_spot.size.y / 2)
+      #TODO generate a random enemy 
+      var enemy = Global.enemy.instantiate()
+      #enemy.stats = Global.party.members[i]
+      var enemy_spot = spots.get_child(i + 4)
+      enemy.position = enemy_spot.get_rect().get_center() - Vector2(0, enemy_spot.get_rect().size.y)
+      
+      add_child(player)
+      add_child(enemy)
+   
    SignalBus.emit_signal("battle_ready")
    call_deferred("merge_arrays")
 
@@ -38,16 +54,10 @@ func next_turn():
    Util.print([current_entity.name, " beginning turn"])
 
 # ---- # New Player
-func new_player(player: Player):
-   player_entities.append(player)
-   Util.print(["[color=Royalblue]player[/color] added"])
-   #print_rich("[color=#64649E]Battle Scene[/color]: [color=Royalblue]player[/color] added")
+func new_player(player: Player): player_entities.append(player)
 
 # ---- # New Enemy
-func new_enemy(enemy: Enemy):
-   enemy_entities.append(enemy)
-   Util.print(["[color=Crimson]enemy[/color] added"])
-   #print_rich("[color=#64649E]Battle Scene[/color]: [color=Crimson]enemy[/color] added")
+func new_enemy(enemy: Enemy): enemy_entities.append(enemy)
 
 # ---- # Remove From Queue
 func remove_from_queue(entity: Entity):   
@@ -82,6 +92,6 @@ func sort_queue(e1: Entity, e2: Entity):
 
 # ---- # End Battle
 func end_battle():
-   Global.player_stats.campaign_position += 1
+   Global.party.campaign_position += 1
    SelectionManager.reset()
    get_tree().change_scene_to_packed(Global.map_scene)

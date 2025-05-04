@@ -38,11 +38,11 @@ func finish_turn(signaller: Entity):
    if my_turn and signaller == self: start_turn()
 
 func _ready() -> void:
-   base_class = Global.player_stats.base_class
+   base_class = stats.base_class
    super()
    add_to_group("Player")
-   health = Global.player_stats.health
-   actions = Global.player_stats.actions
+   health = stats.health
+   actions = stats.actions
    SignalBus.connect("turn_button_pressed", finish_turn)
    SignalBus.connect("target_selected", attack)
    create_actions()

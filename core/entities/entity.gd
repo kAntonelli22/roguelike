@@ -11,6 +11,9 @@ extends StateMachine
 @onready var attack_ring := $AttackRing
 @onready var action_selection = $ActionSelection
 
+# ---- # Stat Resource
+var stats: PlayerStats
+
 # ---- # Stat Const
 var ACTIONS: int = 3
 var HEALTH: int = 100
