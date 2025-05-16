@@ -1,7 +1,7 @@
 class_name Player
 extends Entity
 
-#FIXME spam clicking can cause errors
+#FIXME spam clicking seems to increase the damage done
 #FIXME multi target attacks cannot be used with less than max
 #FIXME attack logic should be in attack class
 

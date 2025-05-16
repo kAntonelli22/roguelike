@@ -10,12 +10,19 @@ var class_colors = {
    "entity": "[color=#64649E]Entity[/color]",
    "player": "[color=Royalblue]Player[/color]",
    "enemy": "[color=Crimson]Enemy[/color]",
-   "selection_manager": "[color=Springgreen]SelectionManager[/color]",
+   #"selection_manager": "[color=Springgreen]SelectionManager[/color]",
 }
 
 # ---- # debug print that uses class colors and adds the line it was called from
-var left_padding: int = 20
+var left_padding: int = 0
 var center_padding: int = 125
+
+func _ready() -> void:
+   for key in class_colors.keys():
+      var key_value: String = class_colors[key].get_slice("]", 1)#.get_slice("[", 0)
+      print(key_value)
+      if key_value.length() > left_padding:
+         left_padding = key_value.length()
 
 #HACK bbcode in text causes formatting to be off
 func print(args: Array, caller: String = ""):
@@ -31,6 +38,7 @@ func print(args: Array, caller: String = ""):
    for arg in args:
       text += str(arg)
    
+   if !class_colors.has(file_name): return   # do not print if their is no class tag
    var printer: String = class_colors[file_name] + " | "
    var bbcode: int = printer.get_slice("]", 0).length() + 8 # closing bbcode bracket offset
    printer = printer.lpad(left_padding + bbcode)

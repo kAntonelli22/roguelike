@@ -47,3 +47,7 @@ var classes: Dictionary = {
       "attacks": [attacks.fireball, attacks.lightning, attacks.heal]
       },
 }
+
+
+# ---- # Credit stuff
+# - gold assets - https://opengameart.org/content/gold-treasure-icons
