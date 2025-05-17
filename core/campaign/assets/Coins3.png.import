@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyjesk5schgsq"
-path="res://.godot/imported/map.aseprite-de781a11209aa2f58d75af42a2dfdb51.ctex"
+uid="uid://sohan0ioy6wf"
+path="res://.godot/imported/Coins3.png-d5a8accf8dfea0ea2e725c861435d15e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user_interface/ui_assets/map.aseprite"
-dest_files=["res://.godot/imported/map.aseprite-de781a11209aa2f58d75af42a2dfdb51.ctex"]
+source_file="res://core/campaign/assets/Coins3.png"
+dest_files=["res://.godot/imported/Coins3.png-d5a8accf8dfea0ea2e725c861435d15e.ctex"]
 
 [params]
 

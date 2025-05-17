@@ -6,7 +6,7 @@ extends Node
 
 var class_colors = {
    "abstract_fsm": "[color=#64649E]FSM[/color]",
-   "battle": "[color=#64649E]Battle Scene[/color]",
+   #"battle": "[color=#64649E]Battle Scene[/color]",
    "entity": "[color=#64649E]Entity[/color]",
    "player": "[color=Royalblue]Player[/color]",
    "enemy": "[color=Crimson]Enemy[/color]",
@@ -19,8 +19,7 @@ var center_padding: int = 125
 
 func _ready() -> void:
    for key in class_colors.keys():
-      var key_value: String = class_colors[key].get_slice("]", 1)#.get_slice("[", 0)
-      print(key_value)
+      var key_value: String = class_colors[key].get_slice("]", 1)
       if key_value.length() > left_padding:
          left_padding = key_value.length()
 

@@ -1,0 +1,220 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2kln3c0p43v3"]
+
+[ext_resource type="Texture2D" uid="uid://bxeojrmdayc4d" path="res://core/campaign/assets/colored_map.aseprite" id="1_iomqv"]
+[ext_resource type="Texture2D" uid="uid://d2u0systkucq7" path="res://core/entities/entity_assets/wizard/Lightning Mage/Icon.png" id="2_pdbms"]
+[ext_resource type="PackedScene" uid="uid://i6np4dkx35f4" path="res://core/campaign/encounter.tscn" id="3_aiu0x"]
+[ext_resource type="PackedScene" uid="uid://neqghf6gfg36" path="res://user_interface/village.tscn" id="4_xvlpx"]
+[ext_resource type="PackedScene" uid="uid://dlpht0u33tj5w" path="res://core/battle/battle.tscn" id="5_3k6j6"]
+[ext_resource type="PackedScene" uid="uid://def75rliqryb8" path="res://core/campaign/item.tscn" id="6_wyxa0"]
+
+[sub_resource type="GDScript" id="GDScript_0me3c"]
+script/source = "extends Control
+
+#TODO finish functionality of rewards screen
+#TODO replace set_player_position with a save resource
+#FIXME encounters are skipped on the map
+
+# ---- # Nodes
+@onready var encounters: Node = $Encounters
+@onready var result_screen: ColorRect = $ResultScreen
+@onready var path_2d: Path2D = $CampaignMap/Path2D
+@onready var path_follow_2d: PathFollow2D = $CampaignMap/Path2D/PathFollow2D
+@onready var player: Sprite2D = $CampaignMap/Path2D/PathFollow2D/PlayerMarker
+@onready var resources: Label = $TextureRect/MarginContainer/Resources
+
+# ---- # Variables
+@onready var points: Array[Vector2]
+var map_encounter = preload(\"res://core/campaign/encounter.tscn\")
+var progress: int = 1
+
+# ---- # Set Player Position
+# loop through encounters, move player to them, delete encounter
+func set_player_position(encounter_num: int):
+   if encounter_num == encounters.get_child_count() - 1:
+      Global.party.campaign_position = 0
+      Global.party.campaign_progress = 0
+      Global.party.progress += 1
+   for i in encounter_num+1:
+      var child = encounters.get_child(0)
+      child.queue_free()
+      encounters.remove_child(child)
+   if Global.party.campaign_progress != 0:
+      path_follow_2d.progress = Global.party.campaign_progress
+      result_screen.show()
+      get_tree().paused = true
+
+# ---- # Ready
+func _ready() -> void:
+   if Global.party.icon != null: player.texture = Global.party.icon
+   set_player_position(Global.party.campaign_position)
+
+# ---- # Physics process
+func _physics_process(delta):
+   if result_screen.visible:
+      resources.text = \"Gold: \" + str(Global.party.gold)
+      result_screen.hide()
+
+   path_follow_2d.progress += 100 * delta
+   if encounters.get_child(0).global_position.distance_to(player.global_position) < 5:
+      Global.party.campaign_progress = path_follow_2d.progress + 5
+      encounters.get_child(0).load_encounter()
+"
+
+[sub_resource type="Curve2D" id="Curve2D_wgl7b"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 65, 330, 0, 0, 0, 0, 186, 268, 0, 0, 0, 0, 262, 347, 0, 0, 0, 0, 445, 252, 0, 0, 0, 0, 550, 361, 0, 0, 0, 0, 611, 328, 0, 0, 0, 0, 753, 402, 0, 0, 0, 0, 919, 232, 0, 0, 0, 0, 1083, 317)
+}
+point_count = 9
+
+[node name="Campaign" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_0me3c")
+
+[node name="CampaignMap" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_iomqv")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Path2D" type="Path2D" parent="CampaignMap"]
+curve = SubResource("Curve2D_wgl7b")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CampaignMap/Path2D"]
+position = Vector2(65, 330)
+rotates = false
+
+[node name="PlayerMarker" type="Sprite2D" parent="CampaignMap/Path2D/PathFollow2D"]
+texture = ExtResource("2_pdbms")
+
+[node name="Encounters" type="Node" parent="."]
+
+[node name="Encounter" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(65, 330)
+scene = ExtResource("4_xvlpx")
+
+[node name="Encounter2" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(186, 268)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter3" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(262, 346)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter4" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(445, 254)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter5" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(551, 359)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter6" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(612, 330)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter7" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(753, 402)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter8" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(920, 232)
+scene = ExtResource("5_3k6j6")
+
+[node name="Encounter9" parent="Encounters" instance=ExtResource("3_aiu0x")]
+position = Vector2(1083, 314)
+scene = ExtResource("4_xvlpx")
+
+[node name="ResultScreen" type="ColorRect" parent="."]
+process_mode = 2
+visible = false
+custom_minimum_size = Vector2(480, 240)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -120.0
+offset_right = 180.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.180392, 0.227451, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ResultScreen/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResultScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Reward"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ResultScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Item" parent="ResultScreen/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_wyxa0")]
+layout_mode = 2
+item_name = "Gold"
+resource = "gold"
+quantity = 10
+
+[node name="Item2" parent="ResultScreen/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_wyxa0")]
+layout_mode = 2
+item_name = "Gold"
+resource = "gold"
+quantity = 20
+
+[node name="Item3" parent="ResultScreen/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_wyxa0")]
+layout_mode = 2
+item_name = "Gold"
+resource = "gold"
+quantity = 40
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -232.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resources" type="Label" parent="TextureRect/MarginContainer"]
+layout_mode = 2
+text = "Gold: 0"
+horizontal_alignment = 2
+vertical_alignment = 1

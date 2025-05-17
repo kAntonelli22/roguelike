@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://el06i4lan8jj"
-path="res://.godot/imported/Background.png-1fd0ccdfc1d28c767ac49230de95b2c8.ctex"
+uid="uid://dlotiyomi1h75"
+path="res://.godot/imported/Overlay.png-f0025fcf20e2a7b7f247ed5f836496c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user_interface/ui_assets/Background.png"
-dest_files=["res://.godot/imported/Background.png-1fd0ccdfc1d28c767ac49230de95b2c8.ctex"]
+source_file="res://core/campaign/assets/Overlay.png"
+dest_files=["res://.godot/imported/Overlay.png-f0025fcf20e2a7b7f247ed5f836496c4.ctex"]
 
 [params]
 

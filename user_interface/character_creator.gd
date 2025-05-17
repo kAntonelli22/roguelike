@@ -43,6 +43,7 @@ func _on_start_pressed() -> void:
    player.base_class = selected_class
    player.name = char_name
    Global.party.add_member(player)
+   Global.party.icon = Global.classes[selected_class].icon
    get_tree().change_scene_to_packed(Global.village_scene)
 
 # ---- # Return To Menu

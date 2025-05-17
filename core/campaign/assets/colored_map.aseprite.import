@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bxeojrmdayc4d"
-path="res://.godot/imported/colored_map.aseprite-0863699f8d89302a6848638e4fa28f63.ctex"
+path="res://.godot/imported/colored_map.aseprite-93b54f52a95a482843b7ce543a4cf766.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user_interface/ui_assets/colored_map.aseprite"
-dest_files=["res://.godot/imported/colored_map.aseprite-0863699f8d89302a6848638e4fa28f63.ctex"]
+source_file="res://core/campaign/assets/colored_map.aseprite"
+dest_files=["res://.godot/imported/colored_map.aseprite-93b54f52a95a482843b7ce543a4cf766.ctex"]
 
 [params]
 

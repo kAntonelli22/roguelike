@@ -93,5 +93,6 @@ func sort_queue(e1: Entity, e2: Entity):
 # ---- # End Battle
 func end_battle():
    Global.party.campaign_position += 1
+   Util.print(["ending battle: ", Global.party.campaign_position])
    SelectionManager.reset()
    get_tree().change_scene_to_packed(Global.map_scene)
