@@ -1,7 +1,6 @@
 extends Node2D
 
 #TODO implement a spot system to allow players to decide where their members are placed
-#TODO replace debug entity creation with party resource based entity creation
 
 # ---- # Nodes
 @onready var ui: CanvasLayer = $UI
@@ -24,10 +23,8 @@ func _ready() -> void:
       player.stats = Global.party.members[i]
       var player_spot = spots.get_child(i)
       player.position = player_spot.get_rect().get_center() - Vector2(0, player_spot.get_rect().size.y)
-      #player.position = Vector2(player_spot.position.x + player_spot.size.x / 2, player_spot.position.y - player_spot.size.y / 2)
-      #TODO generate a random enemy 
+      #TODO retrieve enemy party
       var enemy = Global.enemy.instantiate()
-      #enemy.stats = Global.party.members[i]
       var enemy_spot = spots.get_child(i + 4)
       enemy.position = enemy_spot.get_rect().get_center() - Vector2(0, enemy_spot.get_rect().size.y)
       

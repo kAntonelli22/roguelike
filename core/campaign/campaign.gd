@@ -1,8 +1,5 @@
 extends Control
 
-#TODO finish functionality of rewards screen
-#TODO replace set_player_position with a save resource
-#FIXME encounters are skipped on the map
 
 # ---- # Nodes
 @onready var encounters: Node = $Encounters
@@ -10,10 +7,11 @@ extends Control
 @onready var path_2d: Path2D = $CampaignMap/Path2D
 @onready var path_follow_2d: PathFollow2D = $CampaignMap/Path2D/PathFollow2D
 @onready var player: Sprite2D = $CampaignMap/Path2D/PathFollow2D/PlayerMarker
+@onready var resources: Label = $TextureRect/MarginContainer/Resources
 
 # ---- # Variables
 @onready var points: Array[Vector2]
-var map_encounter = preload("res://user_interface/encounter.tscn")
+var map_encounter = preload("res://core/campaign/encounter.tscn")
 var progress: int = 1
 
 # ---- # Set Player Position
@@ -21,14 +19,16 @@ var progress: int = 1
 func set_player_position(encounter_num: int):
    if encounter_num == encounters.get_child_count() - 1:
       Global.party.campaign_position = 0
+      Global.party.campaign_progress = 0
       Global.party.progress += 1
-   for i in encounter_num:
+   for i in encounter_num+1:
       var child = encounters.get_child(0)
-      player.position = child.position
       child.queue_free()
       encounters.remove_child(child)
-   result_screen.show()
-   get_tree().paused = true
+   if Global.party.campaign_progress != 0:
+      path_follow_2d.progress = Global.party.campaign_progress
+      result_screen.show()
+      get_tree().paused = true
 
 # ---- # Ready
 func _ready() -> void:
@@ -37,9 +37,11 @@ func _ready() -> void:
 
 # ---- # Physics process
 func _physics_process(delta):
-   if result_screen.visible: result_screen.hide()
+   if result_screen.visible:
+      resources.text = "Gold: " + str(Global.party.gold)
+      result_screen.hide()
 
    path_follow_2d.progress += 100 * delta
-   print(encounters.get_child(0).global_position.distance_to(player.global_position))
-   if encounters.get_child(0).global_position.distance_to(player.global_position) < 100:
+   if encounters.get_child(0).global_position.distance_to(player.global_position) < 5:
+      Global.party.campaign_progress = path_follow_2d.progress + 5
       encounters.get_child(0).load_encounter()

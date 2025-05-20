@@ -1,64 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://d2kln3c0p43v3"]
 
 [ext_resource type="Texture2D" uid="uid://bxeojrmdayc4d" path="res://core/campaign/assets/colored_map.aseprite" id="1_iomqv"]
+[ext_resource type="Script" path="res://core/campaign/campaign.gd" id="1_iui2b"]
 [ext_resource type="Texture2D" uid="uid://d2u0systkucq7" path="res://core/entities/entity_assets/wizard/Lightning Mage/Icon.png" id="2_pdbms"]
 [ext_resource type="PackedScene" uid="uid://i6np4dkx35f4" path="res://core/campaign/encounter.tscn" id="3_aiu0x"]
 [ext_resource type="PackedScene" uid="uid://neqghf6gfg36" path="res://user_interface/village.tscn" id="4_xvlpx"]
 [ext_resource type="PackedScene" uid="uid://dlpht0u33tj5w" path="res://core/battle/battle.tscn" id="5_3k6j6"]
 [ext_resource type="PackedScene" uid="uid://def75rliqryb8" path="res://core/campaign/item.tscn" id="6_wyxa0"]
-
-[sub_resource type="GDScript" id="GDScript_0me3c"]
-script/source = "extends Control
-
-#TODO finish functionality of rewards screen
-#TODO replace set_player_position with a save resource
-#FIXME encounters are skipped on the map
-
-# ---- # Nodes
-@onready var encounters: Node = $Encounters
-@onready var result_screen: ColorRect = $ResultScreen
-@onready var path_2d: Path2D = $CampaignMap/Path2D
-@onready var path_follow_2d: PathFollow2D = $CampaignMap/Path2D/PathFollow2D
-@onready var player: Sprite2D = $CampaignMap/Path2D/PathFollow2D/PlayerMarker
-@onready var resources: Label = $TextureRect/MarginContainer/Resources
-
-# ---- # Variables
-@onready var points: Array[Vector2]
-var map_encounter = preload(\"res://core/campaign/encounter.tscn\")
-var progress: int = 1
-
-# ---- # Set Player Position
-# loop through encounters, move player to them, delete encounter
-func set_player_position(encounter_num: int):
-   if encounter_num == encounters.get_child_count() - 1:
-      Global.party.campaign_position = 0
-      Global.party.campaign_progress = 0
-      Global.party.progress += 1
-   for i in encounter_num+1:
-      var child = encounters.get_child(0)
-      child.queue_free()
-      encounters.remove_child(child)
-   if Global.party.campaign_progress != 0:
-      path_follow_2d.progress = Global.party.campaign_progress
-      result_screen.show()
-      get_tree().paused = true
-
-# ---- # Ready
-func _ready() -> void:
-   if Global.party.icon != null: player.texture = Global.party.icon
-   set_player_position(Global.party.campaign_position)
-
-# ---- # Physics process
-func _physics_process(delta):
-   if result_screen.visible:
-      resources.text = \"Gold: \" + str(Global.party.gold)
-      result_screen.hide()
-
-   path_follow_2d.progress += 100 * delta
-   if encounters.get_child(0).global_position.distance_to(player.global_position) < 5:
-      Global.party.campaign_progress = path_follow_2d.progress + 5
-      encounters.get_child(0).load_encounter()
-"
 
 [sub_resource type="Curve2D" id="Curve2D_wgl7b"]
 _data = {
@@ -73,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_0me3c")
+script = ExtResource("1_iui2b")
 
 [node name="CampaignMap" type="TextureRect" parent="."]
 layout_mode = 1
@@ -83,7 +31,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_iomqv")
-expand_mode = 1
 stretch_mode = 6
 
 [node name="Path2D" type="Path2D" parent="CampaignMap"]

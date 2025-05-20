@@ -2,13 +2,13 @@ class_name Party
 extends Resource
 
 @export_category("members")
-@export var max_size: int
+@export var max_size: int = 4
 @export var size: int
 @export var members: Array[PlayerStats]
 
 @export_category("campaign")
 @export var campaign_position: int
-@export var campaign_progress: int
+@export var campaign_progress: float
 @export var progress: int
 @export var icon: Texture
 
@@ -17,7 +17,8 @@ extends Resource
 @export var inventory: Array
 
 func add_member(member: PlayerStats):
-   members.append(member)
+   if size+1 > max_size: printerr("party max size reached")
+   else: members.append(member)
 
 func remove_member(member: PlayerStats):
    var member_index: int = members.find(member)

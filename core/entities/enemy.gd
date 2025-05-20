@@ -1,15 +1,6 @@
 class_name Enemy
 extends Entity
 
-#TODO actually use the state machine for more than just animations
-
-func create_actions():
-   for i in range(0, attacks.size()):
-      var button = Button.new()
-      button.text = attacks[i].name + " " + str(attacks[i].damage_min) + "-" + str(attacks[i].damage_max)
-      button.name = str(i)
-      action_selection.add_child(button)
-      #button.pressed.connect(attack_num.bind(button))
 
 # ---- # Enemy Turn
 func enemy_turn():

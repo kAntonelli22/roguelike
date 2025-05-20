@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://h2k0hyre5ipg"]
+
+[ext_resource type="Script" path="res://user_interface/recruit.gd" id="1_fwlrq"]
+[ext_resource type="Texture2D" uid="uid://dkflrcrxmrwtf" path="res://user_interface/ui_assets/recruit_background.aseprite" id="1_p8vr1"]
+[ext_resource type="SpriteFrames" uid="uid://cdhgdl4am7yl" path="res://core/entities/entity_assets/SpriteFrames/mageFrames.tres" id="2_3eh3q"]
+
+[node name="Recruit" type="Control"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_fwlrq")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_p8vr1")
+expand_mode = 2
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Background"]
+position = Vector2(80, 104)
+scale = Vector2(2.6, 2.6)
+sprite_frames = ExtResource("2_3eh3q")
+animation = &"idle"
+
+[node name="Stats" type="Label" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -104.0
+offset_right = 236.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "INT: 10
+DEX: 5
+STR: 3"
+
+[node name="Overlay" type="ColorRect" parent="Background"]
+layout_mode = 2
+offset_top = 126.0
+offset_right = 256.0
+offset_bottom = 256.0
+size_flags_vertical = 3
+color = Color(0.0962047, 0.0962048, 0.0962047, 0.513726)
+
+[node name="Name" type="Label" parent="Background/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+  Name"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"OverlayButton"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
